@@ -3,7 +3,7 @@
 
 pkgname=box64
 pkgver=0.3.8
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux Userspace x86_64 Emulator with a twist'
 arch=('x86_64' 'aarch64' 'riscv64' 'powerpc64le')
 url='https://github.com/ptitSeb/box64'
@@ -37,6 +37,7 @@ build() {
               -DARM_DYNAREC=ON \
               -D BOX32=ON \
               -D BOX32_BINFMT=ON \
+              -D WOW64=ON\
               -DCMAKE_BUILD_TYPE=RelWithDebInfo \
               -DCMAKE_INSTALL_PREFIX=/usr
     elif [[ $CARCH == "x86_64" ]]; then
