@@ -1,24 +1,24 @@
 buildarch=8
 
 pkgbase=linux-pipa
-_branch="pipa/6.15.8"
-_srcname="linux-pipa-6.15.8"
+_branch="pipa/6.15.11"
+_srcname="linux-pipa-6.15.11"
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Xiaomi Pad 6 (pipa)"
-pkgver=6.15.8
-pkgrel=3
+pkgver=6.15.11
+pkgrel=4
 arch=('aarch64')
 url="https://github.com/pipa-mainline/linux"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'dtc')
 options=('!strip')
 _config="config-qcom-sm8250-pipa.aarch64"
-source=("$url/archive/refs/heads/pipa/6.15.8.tar.gz"
+source=("$url/archive/refs/heads/$_branch.tar.gz"
         'config-qcom-sm8250-pipa.aarch64'
         'linux-pipa.preset'
         'cmdline.txt')
 sha512sums=('SKIP'
-         'b3da14ff7208740c3b825f529d1df1e850492e702880c1a59e4053217b8300fb03229168920d4da85bd83be271e02885cf7c3f69c12e66b5bd9f9c6d8f4d99eb'
+         'f72d2243a4664a9fdb7ac11fa39a7020b04301767f5e44d20bce6ae9aa32c03dcc8229cca566a09c4ab1e8162fabff87a7e116ad46b68d7fab74eabb609e2669'
          '78e5f43b582438e1e1c30948a099f751f91c756d0b35414f734587680e09f7c1b6ff5c137b2027526818f6a26278981d77d2ed45f9a4f198a14d5e68f6beab2d'
          'ce27b573ede22f7a5a4b974f038e16f7fcc171e6dc801ac22aabb55d0e4ba736de0e8f7496fbde66276d1f5711f1dd70e114e47fb15536aa0ad3f5067c9cb73d')
 
