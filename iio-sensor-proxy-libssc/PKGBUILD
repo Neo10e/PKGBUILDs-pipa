@@ -4,8 +4,8 @@
 # Contributor: ultraviolet <ultravioletnanokitty@gmail.com>
 # Contributor: Pablo Lezeta <prflr88@gmail.com>
 pkgname=iio-sensor-proxy-libssc
-pkgver=3.7
-pkgrel=2
+pkgver=3.8
+pkgrel=3
 pkgdesc='IIO accelerometer sensor to input device proxy'
 arch=('x86_64' 'aarch64')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
@@ -14,14 +14,14 @@ depends=('systemd' 'libgudev' 'glib2' 'polkit' 'libssc')
 makedepends=('gtk3' 'meson')
 checkdepends=('python-gobject' 'python-dbusmock' 'python-psutil' 'umockdev')
 # https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/archive/ssc/iio-sensor-proxy-ssc.tar.gz
-_branch=ssc
+#_branch=ssc
 _pkgname=iio-sensor-proxy
-source=("$url/-/archive/$_branch/$_pkgname-$_branch.tar.gz")
-sha512sums=('SKIP')
+source=("$url/-/archive/$pkgver/$_pkgname-$pkgver.tar.gz")
+sha512sums=('9cca8d706c531c9a2e34dfebdc8673a1765b615533e3f7776118c74cb1ce145e472203c6c7804d35701c22cc93755609829bc3817c5920d5961249d7e8de87c6')
 
 build() {
-  mkdir $_pkgname-$_branch/build
-  cd $_pkgname-$_branch/build
+  mkdir $_pkgname-$pkgver/build
+  cd $_pkgname-$pkgver/build
 
   arch-meson .. \
     -Dsystemdsystemunitdir=/usr/lib/systemd/system \
@@ -32,7 +32,7 @@ build() {
 }
 
 check() {
-  cd $_pkgname-$_branch/build
+  cd $_pkgname-$pkgver/build
 
 #  needs French locale
 #  ninja test
@@ -42,7 +42,7 @@ package() {
   provides=(iio-sensor-proxy)
   conflicts=(iio-sensor-proxy)
   
-  cd $_pkgname-$_branch/build
+  cd $_pkgname-$pkgver/build
    
   DESTDIR="$pkgdir" ninja install
 
