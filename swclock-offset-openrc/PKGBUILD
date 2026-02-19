@@ -1,0 +1,27 @@
+# Maintainer: Jakko <jahau@rocketmail.com>
+
+pkgname=swclock-offset-openrc
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="Activate swclock-offset using openrc"
+arch=('any')
+url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
+license=('GPL-3.0-or-later')
+depends=('openrc' 'swclock-offset')
+install="$pkgname.install"
+source=("https://gitlab.postmarketos.org/postmarketOS/swclock-offset/-/archive/$pkgver/swclock-offset-$pkgver.tar.gz")
+sha512sums=('7779deaf688dd25b9abe8161c8a0651d11b1a44785ff4495a1c4a8b9ba2108a9e73c47cbdb3f8669c4e2e85bea884145f66311c9ce674c1464538695a9852dc0')
+
+package() {
+	cd "$srcdir/swclock-offset-$pkgver"
+
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' openrc/swclock-offset-boot.initd.in > openrc/swclock-offset-boot.initd
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' openrc/swclock-offset-shutdown.initd.in > openrc/swclock-offset-shutdown.initd
+
+	# Install openrc service
+	install -Dm755 openrc/swclock-offset-boot.initd \
+		"$pkgdir/etc/init.d/swclock-offset-boot"
+
+	install -Dm755 openrc/swclock-offset-shutdown.initd  \
+		"$pkgdir/etc/init.d/swclock-offset-shutdown"
+}

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+post_install() {
+    # The service "osclock" is a dummy service simply providing "clock".
+    # This avoids other services that need "clock" to call the service
+    # "hwclock".
+    #
+    # The service "swclock-offset-boot" needs to run after the sysfs has
+    # been mounted. As the sysfs is mounted in runlevel sysinit, assigning
+    # the service to runlevel boot is enough to keep the order.
+    #
+    # Before installation of the package "swclock-offset", the system time
+    # might jump back and forth. Because of this, OpenRC can get confused
+    # whether the cached dependency tree is old or new. To avoid this
+    # uncertainty, an update of the dependency tree cache is triggered here.
+
+    # replace service hwclock by osclock
+    rc-update -q del hwclock boot
+    rc-update -q add osclock boot
+
+    # assign swclock-offset services to runlevels
+    rc-update -q add swclock-offset-boot boot
+    rc-update -q add swclock-offset-shutdown shutdown
+
+    # update dependency tree cache
+    rc-update -q --update
+}
+
+pre_remove() {
+    # Restore the original state
+
+    # remove swclock-offset services
+    rc-update -q del swclock-offset-boot boot
+    rc-update -q del swclock-offset-shutdown shutdown
+
+    # replace service osclock by hwclock
+    rc-update -q del osclock boot
+    rc-update -q add hwclock boot
+}
+
+post_remove() {
+    # remove offset file and directory
+    offset_file="/var/cache/swclock-offset/offset-storage"
+    offset_directory="/var/cache/swclock-offset"
+
+    if [ -f $offset_file ]; then
+    rm $offset_file
+    fi
+
+    if [ -d $offset_directory ]; then
+    rmdir $offset_directory
+    fi
+}
