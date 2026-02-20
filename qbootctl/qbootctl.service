@@ -1,9 +1,0 @@
-[Unit]
-Description=Qbootctl flags slot as boot-succesfull 
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/qbootctl -m
-
-[Install]
-WantedBy=multi-user.target
