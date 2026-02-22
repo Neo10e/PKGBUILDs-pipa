@@ -1,11 +1,39 @@
 #!/bin/sh
 
 post_install() {
-  echo ":: Restarting systemd-binfmt"
-  systemctl restart systemd-binfmt  
+  if command -v rc-service >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    rc-service binfmt restart
+  elif command -v sv >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    sv restart binfmt
+  elif command -v s6-svc >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    s6-svc -r /var/service/binfmt
+  elif command -v dinit >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    dinitctl restart binfmt
+  else
+    echo ":: Restarting systemd-binfmt"
+    systemctl restart systemd-binfmt
+  fi
 }
 
 post_upgrade() {
-  echo ":: Restarting systemd-binfmt"
-  systemctl restart systemd-binfmt  
+  if command -v rc-service >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    rc-service binfmt restart
+  elif command -v sv >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    sv restart binfmt
+  elif command -v s6-svc >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    s6-svc -r /var/service/binfmt
+  elif command -v dinit >/dev/null 2>&1; then
+    echo ":: Restarting binfmt"
+    dinitctl restart binfmt
+  else
+    echo ":: Restarting systemd-binfmt"
+    systemctl restart systemd-binfmt
+  fi
 }
