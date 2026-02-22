@@ -1,0 +1,9 @@
+#!/bin/sh
+
+post_install() {
+    rc-update -q add iio-sensor-proxy-libssc default
+}
+
+pre_remove() {
+    rc-update -q del iio-sensor-proxy-libssc default
+}
