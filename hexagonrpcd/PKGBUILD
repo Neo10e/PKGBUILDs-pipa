@@ -24,7 +24,7 @@ sha512sums=(
 )
 
 build() {
-  artix-meson "$srcdir/hexagonrpc-$pkgver" build
+  artix-meson -Db_lto=true "$srcdir/hexagonrpc-$pkgver" build
   meson compile -C build
 }
 
