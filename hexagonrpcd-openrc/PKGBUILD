@@ -1,0 +1,29 @@
+#Maintainer: Raihan Ahamed (raihan2000) <raihan1999ahamed@gmail.com>
+# Contributor: Dylan Van Assche <dylan@postmarketos.org>
+
+pkgname="hexagonrpcd-openrc"
+pkgdesc="Qualcomm HexagonFS daemon (OpenRC init scripts)"
+pkgver=0.4.0
+pkgrel=1
+arch=('any')
+url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
+license=(GPL-3.0-or-later)
+depends=('openrc' 'hexagonrpcd')
+install="$pkgname.install"
+source=(
+    "hexagonrpcd-adsp-rootpd.initd"
+    "hexagonrpcd-adsp-sensorspd.initd"
+    "hexagonrpcd-sdsp.initd"
+)
+sha512sums=(
+    '934fda348f8b8896d15fa892e81e6dea022144c9bfcb557c0938898ac452ee3ab6a39f7ceaa54ede2ea78711f3516375c01746f8c55d1acec5ec1f1d9c9f816b'
+    '429f4f76e527b4289f95628603e4cee8b8d048d9a2a594ee367e5765b7554f494848c1f1aa0a7da84c193a698cd885e9325323fb6239293f1718775015cd3df0'
+    'c88d3a813aa92298c3585c33111389c7175c67240497f2aeeb413228ccd8b991ed2e5edd2ffd4603389cfc9c8af6dfc5cd4c94c9979919e3efdd5bd5f547c9bd'
+)
+
+package() {
+    # Add Services for OpenRC
+	install -Dm755 "$srcdir"/hexagonrpcd-adsp-rootpd.initd "$pkgdir"/etc/init.d/hexagonrpcd-adsp-rootpd
+	install -Dm755 "$srcdir"/hexagonrpcd-adsp-sensorspd.initd "$pkgdir"/etc/init.d/hexagonrpcd-adsp-sensorspd
+	install -Dm755 "$srcdir"/hexagonrpcd-sdsp.initd "$pkgdir"/etc/init.d/hexagonrpcd-sdsp
+}
