@@ -3,14 +3,15 @@
 # Contributor: Thomas Fanninger <thomas@fanninger.at>
 # Contributor: ultraviolet <ultravioletnanokitty@gmail.com>
 # Contributor: Pablo Lezeta <prflr88@gmail.com>
+
 pkgname=iio-sensor-proxy-libssc
 pkgver=3.8
 pkgrel=3
 pkgdesc='IIO accelerometer sensor to input device proxy'
 arch=('x86_64' 'aarch64')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
-license=('GPL2')
-depends=('systemd' 'libgudev' 'glib2' 'polkit' 'libssc')
+license=('GPL-2.0-or-later')
+depends=('libgudev' 'glib2' 'polkit' 'libssc>=0.2.1' 'dbus')
 makedepends=('gtk3' 'meson')
 checkdepends=('python-gobject' 'python-dbusmock' 'python-psutil' 'umockdev')
 # https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/archive/ssc/iio-sensor-proxy-ssc.tar.gz
@@ -23,10 +24,10 @@ build() {
   mkdir $_pkgname-$pkgver/build
   cd $_pkgname-$pkgver/build
 
-  arch-meson .. \
-    -Dsystemdsystemunitdir=/usr/lib/systemd/system \
-    -Dudevrulesdir=/usr/lib/udev/rules.d \
-    -Dsysconfdir=/usr/share
+  artix-meson .. \
+    -Dsystemdsystemunitdir=false \
+    -Db_lto=true # \
+		# -Dssc-support=true
 
   ninja
 }
@@ -45,14 +46,5 @@ package() {
   cd $_pkgname-$pkgver/build
    
   DESTDIR="$pkgdir" ninja install
-
-  # Add override for it to always restart
-  install -d "$pkgdir/etc/systemd/system/iio-sensor-proxy.service.d"
-  cat > "$pkgdir/etc/systemd/system/iio-sensor-proxy.service.d/override.conf" <<EOF
-[Service]
-Restart=always
-RestartSec=5
-EOF
   
 }
-
