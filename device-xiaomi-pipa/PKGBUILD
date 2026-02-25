@@ -1,7 +1,7 @@
 pkgname=device-xiaomi-pipa
 pkgdesc="Package containing configurations for Xiaomi Pad 6"
 pkgver=3
-pkgrel=5
+pkgrel=6
 url="https://postmarketos.org"
 license=('MIT')
 arch=('aarch64')
@@ -14,6 +14,7 @@ depends=(
 	'mkbootimg'
 	'qbootctl'
 	'iio-sensor-proxy'
+	'hwclock-offset'
 )
 source=(
 	'81-libssc-xiaomi-pipa.rules'
