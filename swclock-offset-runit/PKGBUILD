@@ -1,0 +1,31 @@
+pkgname=swclock-offset-runit
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="Activate swclock-offset using runit"
+arch=('any')
+url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
+license=('GPL-3.0-or-later')
+groups=('runit-pipa-armtix')
+depends=('swclock-offset' 'runit')
+_pkgname=swclock-offset
+install="$pkgname.install"
+source=(
+    "$_pkgname-boot.run.in"
+    "$_pkgname-shutdown.finish.in"
+)
+sha512sums=(
+    'e6c85b10f104163dadd8063824661ad1a397378b6c8a356bfd2437c794802d83161ca6d8f7c6b3de4b81136761895c82e6fa9da961b773a19e6bf9dccf8a953a'
+    'af7e1d92097aa4501f4f63bc7a825ba76f0568627c6aa0d3c08886bdc3fe0ad074e74d0f9bb6adabc558a89e3a39c9eb31f1063251232423a146b09ddd06443e'
+)
+
+package() {
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.run.in > $srcdir/$_pkgname-boot.run
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.finish.in > $srcdir/$_pkgname-shutdown.finish
+
+	# Install runit service
+	install -Dm755 $srcdir/$_pkgname-boot.run \
+		"$pkgdir/etc/runit/sv/$_pkgname-boot/run"
+
+	install -Dm755 $srcdir/$_pkgname-shutdown.finish  \
+		"$pkgdir/etc/runit/sv/$_pkgname-shutdown/finish"
+}

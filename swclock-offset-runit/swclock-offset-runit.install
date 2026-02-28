@@ -1,0 +1,27 @@
+#!/bin/sh
+
+post_install() {
+    # assign swclock-offset services
+    ln -s /etc/runit/sv/swclock-offset-boot /run/runit/service
+    ln -s /etc/runit/sv/swclock-offset-shutdown /run/runit/service
+}
+
+pre_remove() {
+    # remove swclock-offset services
+    unlink /run/runit/service/swclock-offset-boot
+    unlink /run/runit/service/swclock-offset-shutdown
+}
+
+post_remove() {
+    # remove offset file and directory
+    offset_file="/var/cache/swclock-offset/offset-storage"
+    offset_directory="/var/cache/swclock-offset"
+
+    if [ -f $offset_file ]; then
+        rm $offset_file
+    fi
+
+    if [ -d $offset_directory ]; then
+        rmdir $offset_directory
+    fi
+}
