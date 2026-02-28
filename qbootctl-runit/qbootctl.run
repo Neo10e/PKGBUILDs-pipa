@@ -1,5 +1,5 @@
 #!/bin/sh
-exec 2>&1
+exec >/dev/null 2>&1
 # This marks the current boot as successful, without this after ~7
 # reboots A/B devices automatically switch to the inactive slot
 # causing a lot of confusion and usually a soft-bricked device
