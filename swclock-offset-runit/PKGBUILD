@@ -1,6 +1,6 @@
 pkgname=swclock-offset-runit
 pkgver=0.3.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Activate swclock-offset using runit"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
@@ -10,22 +10,25 @@ depends=('swclock-offset' 'runit')
 _pkgname=swclock-offset
 install="$pkgname.install"
 source=(
-    "$_pkgname-boot.run.in"
-    "$_pkgname-shutdown.finish.in"
+    "$_pkgname-boot.rc.in"
+    "$_pkgname-shutdown.rc.in"
 )
 sha512sums=(
-    'e6c85b10f104163dadd8063824661ad1a397378b6c8a356bfd2437c794802d83161ca6d8f7c6b3de4b81136761895c82e6fa9da961b773a19e6bf9dccf8a953a'
-    'af7e1d92097aa4501f4f63bc7a825ba76f0568627c6aa0d3c08886bdc3fe0ad074e74d0f9bb6adabc558a89e3a39c9eb31f1063251232423a146b09ddd06443e'
+    'd790548cc2b8c93960c4774ff628b8301e6fbbc3d6dd579336722a15112b2e2d0f2489c91203905e7d3d544c26ee3bfabb34c9319853e881b442e5cf29e605c6'
+    'd790548cc2b8c93960c4774ff628b8301e6fbbc3d6dd579336722a15112b2e2d0f2489c91203905e7d3d544c26ee3bfabb34c9319853e881b442e5cf29e605c6'
 )
 
 package() {
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.run.in > $srcdir/$_pkgname-boot.run
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.finish.in > $srcdir/$_pkgname-shutdown.finish
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.rc.in > $srcdir/$_pkgname-boot.rc
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.rc.in > $srcdir/$_pkgname-shutdown.rc
 
-	# Install runit service
-	install -Dm755 $srcdir/$_pkgname-boot.run \
-		"$pkgdir/etc/runit/sv/$_pkgname-boot/run"
+	# Install runit rc files
+	install -Dm755 $srcdir/$_pkgname-boot.rc \
+		"$pkgdir/etc/rc/sysinit/14-$_pkgname-boot"
 
-	install -Dm755 $srcdir/$_pkgname-shutdown.finish  \
-		"$pkgdir/etc/runit/sv/$_pkgname-shutdown/finish"
+	install -Dm755 $srcdir/$_pkgname-shutdown.rc \
+		"$pkgdir/etc/rc/shutdown/34-$_pkgname-shutdown"
+
+	ln -s "$pkgdir/etc/rc/sysinit/14-$_pkgname-boot" "$pkgdir/usr/lib/rc/sv.d/$_pkgname-boot"
+	ln -s "$pkgdir/etc/rc/shutdown/34-$_pkgname-shutdown" "$pkgdir/usr/lib/rc/sv.d/$_pkgname-shutdown" 
 }
