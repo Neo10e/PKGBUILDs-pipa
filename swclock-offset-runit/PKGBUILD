@@ -28,7 +28,4 @@ package() {
 
 	install -Dm755 $srcdir/$_pkgname-shutdown.rc \
 		"$pkgdir/etc/rc/shutdown/34-$_pkgname-shutdown"
-
-	ln -s "$pkgdir/etc/rc/sysinit/14-$_pkgname-boot" "$pkgdir/usr/lib/rc/sv.d/$_pkgname-boot"
-	ln -s "$pkgdir/etc/rc/shutdown/34-$_pkgname-shutdown" "$pkgdir/usr/lib/rc/sv.d/$_pkgname-shutdown" 
 }
