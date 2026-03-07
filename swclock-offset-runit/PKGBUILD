@@ -1,6 +1,6 @@
 pkgname=swclock-offset-runit
 pkgver=0.3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Activate swclock-offset using runit"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
@@ -24,8 +24,8 @@ package() {
 
 	# Install runit rc files
 	install -Dm755 $srcdir/$_pkgname-boot.rc \
-		"$pkgdir/etc/rc/sysinit/14-$_pkgname-boot"
+		"$pkgdir/usr/lib/rc/sv.d/$_pkgname-boot"
 
 	install -Dm755 $srcdir/$_pkgname-shutdown.rc \
-		"$pkgdir/etc/rc/shutdown/34-$_pkgname-shutdown"
+		"$pkgdir/usr/lib/rc/sv.d/$_pkgname-shutdown"
 }

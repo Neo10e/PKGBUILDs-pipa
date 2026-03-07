@@ -2,11 +2,13 @@
 
 post_install() {
     # remove hwclock service
+    unlink /etc/rc/sysinit/15-hwclock 
+    unlink /etc/rc/shutdown/35-hwclock
     /usr/lib/rc/sv.d/hwclock stop
 
     # assign swclock-offset services
-    ln -s /etc/rc/sysinit/14-swclock-offset-boot /usr/lib/rc/sv.d/swclock-offset-boot
-	ln -s /etc/rc/shutdown/34-swclock-offset-shutdown /usr/lib/rc/sv.d/swclock-offset-shutdown
+    ln -s /usr/lib/rc/sv.d/swclock-offset-boot /etc/rc/sysinit/14-swclock-offset-boot 
+	ln -s /usr/lib/rc/sv.d/swclock-offset-shutdown /etc/rc/shutdown/34-swclock-offset-shutdown 
     /usr/lib/rc/sv.d/swclock-offset-boot start
     /usr/lib/rc/sv.d/swclock-offset-shutdown start
 }
@@ -15,11 +17,13 @@ pre_remove() {
     # Restore the original state
 
     # remove swclock-offset services
+    unlink /etc/rc/sysinit/14-swclock-offset-boot 
+	unlink /etc/rc/shutdown/34-swclock-offset-shutdown
     /usr/lib/rc/sv.d/swclock-offset-boot stop
     /usr/lib/rc/sv.d/swclock-offset-shutdown stop
-    unlink /usr/lib/rc/sv.d/swclock-offset-boot
-	unlink /usr/lib/rc/sv.d/swclock-offset-shutdown
 
     # assign hwclock service
+    ln -s /usr/lib/rc/sv.d/hwclock /etc/rc/sysinit/15-hwclock
+    ln -s /usr/lib/rc/sv.d/hwclock /etc/rc/shutdown/35-hwclock
     /usr/lib/rc/sv.d/hwclock start
 }
