@@ -1,0 +1,38 @@
+pkgname=swclock-offset-s6
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="Activate swclock-offset using s6"
+arch=('any')
+url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
+license=('GPL-3.0-or-later')
+groups=('s6-pipa-armtix')
+depends=('swclock-offset' 's6')
+_pkgname=swclock-offset
+install="$pkgname.install"
+source=(
+    "$_pkgname-boot.up.in"
+    "$_pkgname-shutdown.down.in"
+)
+sha512sums=(
+    '866f31e7d00e3890a584b64eaf7b8f83cd9f6232196d906551072d5ea354f91b48ff81567c4b4f705624adfb58bca1b059b70efe5ec68fc55480adf7356db454'
+    '4a666377278df2dcaaef42a7228077a066940a740a9a6c8407c545e24b9525f1ded70f0be8bfbd90d45343c97fe8374020780c217dd01a250f30af04671cefc4'
+)
+
+package() {
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.up.in > $srcdir/$_pkgname-boot.up
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.down.in > $srcdir/$_pkgname-shutdown.down
+
+	# Install s6 service
+	install -Dm755 $srcdir/$_pkgname-boot.up \
+		"$pkgdir/etc/s6/sv/$_pkgname-boot/up"
+
+	install -Dm755 $srcdir/$_pkgname-shutdown.down \
+		"$pkgdir/etc/s6/sv/$_pkgname-shutdown/down"
+
+    # Add oneshot
+    install -Dm644 $srcdir/type \
+        "$pkgdir/etc/s6/sv/$_pkgname-boot/type"
+
+    install -Dm644 $srcdir/type \
+        "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
+}
