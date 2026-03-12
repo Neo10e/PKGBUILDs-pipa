@@ -14,7 +14,7 @@ depends=(
 	'mkbootimg'
 	'qbootctl'
 	'iio-sensor-proxy'
-	'hwclock-offset'
+	'swclock-offset'
 )
 source=(
 	'81-libssc-xiaomi-pipa.rules'
