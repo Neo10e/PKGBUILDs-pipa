@@ -12,6 +12,11 @@ post_install() {
     s6-db-reload
 }
 
+post_upgrade() {
+    # reload database
+    s6-db-reload
+}
+
 pre_remove() {
     # Restore the original state
 

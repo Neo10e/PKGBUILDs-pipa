@@ -1,2 +1,0 @@
-#!/bin/execlineb -P
-exec SWCLOCK_PATH/swclock-offset-boot

@@ -1,43 +1,42 @@
 pkgname=swclock-offset-s6
 pkgver=0.3.0
-pkgrel=1
-pkgdesc="Activate swclock-offset using s6"
+pkgrel=2
+pkgdesc="Activate swclock-offset using skarnet's s6"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
 license=('GPL-3.0-or-later')
 groups=('s6-pipa-armtix')
-depends=('swclock-offset' 's6')
+depends=('swclock-offset' 's6-base')
 _pkgname=swclock-offset
 install="$pkgname.install"
 source=(
-    "$_pkgname-boot.up.in"
+    "$_pkgname-boot.run.in"
     "$_pkgname-shutdown.down.in"
-    "type"
 )
 sha512sums=(
-    '866f31e7d00e3890a584b64eaf7b8f83cd9f6232196d906551072d5ea354f91b48ff81567c4b4f705624adfb58bca1b059b70efe5ec68fc55480adf7356db454'
-    '4a666377278df2dcaaef42a7228077a066940a740a9a6c8407c545e24b9525f1ded70f0be8bfbd90d45343c97fe8374020780c217dd01a250f30af04671cefc4'
-    'fe9af32f316afa77c8761bebbfb74219020f3ef2123cf25a5299e52177d40fd103e3862b88dc6a3353a53f7db33c6181f9595253d9f89015c83e9263544e9afb'
+    '4f91a395a802eabfe4e03bac45546b2a9e2192cca38b092a6c980b9c1d50c9914cf01ff8462395f7ada371afd8751b99331eb10d9dcf4359631dce60ad2f1c6f'
+    'e474b744a372b803cf313e85c2a06cd1daa0c67cc63c61802869a259e8a62cfe2f70cd2937d29290a0884f2719daf9970433d1f60b66e34db4b93c92d5ae2d9b'
 )
 
 package() {
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.up.in > $srcdir/$_pkgname-boot.up
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.run.in > $srcdir/$_pkgname-boot.run
 	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.down.in > $srcdir/$_pkgname-shutdown.down
 
-	# Install s6 service
-	install -Dm755 $srcdir/$_pkgname-boot.up \
-		"$pkgdir/etc/s6/sv/$_pkgname-boot/up"
+    # Install s6 service
+	install -Dm755 $srcdir/$_pkgname-boot.run \
+		"$pkgdir/etc/s6/sv/$_pkgname-boot/run"
 
 	install -Dm755 $srcdir/$_pkgname-shutdown.down \
 		"$pkgdir/etc/s6/sv/$_pkgname-shutdown/down"
 
-    # Add oneshot
-    install -Dm644 $srcdir/type \
-        "$pkgdir/etc/s6/sv/$_pkgname-boot/type"
-
-    install -Dm644 $srcdir/type \
-        "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
+    # Add service type
+    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-boot/type"      # oneshot doesn't work for some reason
+    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
 
     # Trick to reload database
-    touch run "$pkgdir/etc/s6/sv/$_pkgname-shutdown/run
+    cat > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/up" <<EOF
+#!/bin/execlineb -P
+exit 0
+EOF
+
 }
