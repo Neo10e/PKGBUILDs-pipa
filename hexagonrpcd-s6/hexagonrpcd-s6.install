@@ -1,0 +1,16 @@
+#!/bin/sh
+
+post_install() {
+    # Enable hexagonrpcd-sdsp by default, it's needed for iio-sensor-proxy
+    s6-service add default hexagonrpcd-sdsp
+    s6-db-reload
+}
+
+post_upgrade() {
+    s6-db-reload
+}
+
+pre_remove() {
+    s6-service del default hexagonrpcd-sdsp
+    s6-db-reload
+}
