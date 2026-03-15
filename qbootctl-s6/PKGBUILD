@@ -1,7 +1,7 @@
 pkgname="qbootctl-s6"
 pkgdesc="Mark current boot as successful in Android A/B interface"
 pkgver=0.2.2
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://github.com/linux-msm/qbootctl"
 license=('GPL-3.0-or-later')
@@ -10,7 +10,7 @@ depends=('qbootctl' 's6-base')
 _pkgname=qbootctl
 install="$pkgname.install"
 source=("$_pkgname.up")
-sha512sums=('12fa7d0178d224d5b7f36e04811f33248039c1f551171845ef31ae8f3b16287ed2861330915b3a1af112826da8f87f796c0e4bf1309ec7c4f1c6e5e6b11ad845')
+sha512sums=('704c85c52e4e069458b2d16714a026c4a146eeaa3ceb8dfc88e4fa787d8868d480e3fb245747d1a4ea04901eabd6e6fe2a1bd7273c212ab971820a84b86267d0')
 
 package() {
 	# Install s6 service
