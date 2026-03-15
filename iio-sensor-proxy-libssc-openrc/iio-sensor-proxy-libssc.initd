@@ -5,4 +5,5 @@ command="/usr/lib/iio-sensor-proxy"
 
 depend() {
 	need dbus
+	after hexagonrpcd-adsp-rootpd hexagonrpcd-adsp-sensorspd hexagonrpcd-sdsp
 }
