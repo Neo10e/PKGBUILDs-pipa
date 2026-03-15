@@ -29,7 +29,7 @@ package() {
 	install -Dm755 $srcdir/$_pkgname-sdsp.run "$pkgdir/etc/s6/sv/$_pkgname-sdsp/run"
 
     # Add config 
-    install -Dm644 $srcdir/$_pkgname.conf "$pkgdir/etc/s6/conf/$_pkgname.conf"
+    install -Dm644 $srcdir/$_pkgname.conf "$pkgdir/etc/s6/config/$_pkgname.conf"
 
     # Add service type
     echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/type"
