@@ -1,0 +1,31 @@
+pkgname=device-xiaomi-pipa-openrc
+pkgdesc="Package containing OpenRC configurations for Xiaomi Pad 6"
+pkgver=3
+pkgrel=1
+url="https://postmarketos.org"
+license=('MIT')
+arch=('aarch64')
+groups=('openrc-pipa-armtix')
+depends=(
+	'device-xiaomi-pipa'
+	'hexagonrpcd-openrc'
+	'qbootctl-openrc'
+	'iio-sensor-proxy-libssc-openrc'
+	'swclock-offset-openrc'
+	'openrc'
+)
+source=(
+	'hexagonrpcd.confd'
+)
+sha512sums=(
+	'7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144'
+)
+
+package() {
+	# Add hexagonrpcd related configs
+	install -Dm644 "$srcdir"/hexagonrpcd.confd "$pkgdir"/etc/conf.d/hexagonrpcd-sdsp
+	install -Dm644 "$srcdir"/hexagonrpcd.confd "$pkgdir"/etc/conf.d/hexagonrpcd-adsp-rootpd
+	install -Dm644 "$srcdir"/hexagonrpcd.confd "$pkgdir"/etc/conf.d/hexagonrpcd-adsp-sensorpd	
+}
+
+
