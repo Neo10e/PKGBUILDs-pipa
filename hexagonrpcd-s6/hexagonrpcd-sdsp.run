@@ -1,7 +1,7 @@
 #!/usr/bin/execlineb -P
-# Xiaomi Pad 6 specific hexagonrpcd config
-envfile /etc/s6/config/hexagonrpcd.conf
-importas -uD "/usr/share/qcom/sm8250/Xiaomi/pipa/" hexagonrpcd_fw_dir hexagonrpcd_fw_dir
-importas -uD "-f /dev/fastrpc-sdsp -d sdsp -s" sdsp_args sdsp_args
+envfile /etc/s6/config/hexagonrpcd-adsp-rootpd.conf
+importas hexagonrpcd_fw_dir hexagonrpcd_fw_dir
+define args "-f /dev/fastrpc-sdsp -d sdsp -s"
+foreground { if { "${hexagonrpcd_fw_dir}" } define args "${args} -R ${hexagonrpcd_fw_dir}" }
 fdmove -c 2 1
-exec s6-setuidgid fastrpc /usr/bin/hexagonrpcd ${sdsp_args} -R ${hexagonrpcd_fw_dir}
+exec s6-setuidgid fastrpc /usr/bin/hexagonrpcd ${args}

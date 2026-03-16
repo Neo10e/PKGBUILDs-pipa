@@ -1,7 +1,7 @@
 pkgname="hexagonrpcd-s6"
 pkgdesc="Qualcomm HexagonFS daemon (s6 init scripts)"
 pkgver=0.4.0
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
@@ -13,13 +13,11 @@ source=(
     "$_pkgname-adsp-rootpd.run"
     "$_pkgname-adsp-sensorspd.run"
     "$_pkgname-sdsp.run"
-    "$_pkgname.conf"
 )
 sha512sums=(
-    'fa464c0465d167fa6c6c603b00c729c0dac5f08da13990f54729a7f66892aab01240a0a1d8fbee63d93ea867e9a75e61bea9535b8a8fc5c61065a159f41a89ca'
-    'd03786debbf3e190c898384803b529340fa7513e4d44669db9ead37e644eda999fcbfc0cb4bde33adac71c9a08bd6b3a1638d7c39502b8cf16e80fff1bf7d842'
-    '323a18d6ea809b63f9af14a8ad8b834cebc5e4bd4771917e55579680311fe0c1a5ab07975f0b93770c1585a04755f088069f4ef84b507fc548d7b07db2de8622'
-    '652e07a15c61abe5e88c76692d6aae9d100b8730d4ba02d6c77e563673873d6e0c99f1ba3ed115bce98646576f5ea24dc2386a03616b7b45f4a39c21ba80e0e8'
+    '0ad167e205cdd395d5477a86ac5f2ed3e79e0d4d96d5ce218936e4b17c2e3e77241c493e56bef7a836377bb68f414500e8954861dc708c6080e92bce80976f05'
+    'ee3e0a0605abf1de9d925f3c2fd61c2b64c3937f86360e5ec2804717e2db747931fcff7800f51dd12d5b04f459e6bfb146bcbdc8967410287aaed510eca5acb1'
+    '1968687e5b16fcfb78e3bf3487af669198e524a5b312f1ed82f562b7734df65c1b388b983ae3f2d337ddf98764b5f0d07a1ee8438b3012c9622f0d64a472d3c6'
 )
 
 package() {
@@ -27,9 +25,6 @@ package() {
 	install -Dm755 $srcdir/$_pkgname-adsp-rootpd.run "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/run"
 	install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.run "$pkgdir/etc/s6/sv/$_pkgname-adsp-sensorspd/run"
 	install -Dm755 $srcdir/$_pkgname-sdsp.run "$pkgdir/etc/s6/sv/$_pkgname-sdsp/run"
-
-    # Add config 
-    install -Dm644 $srcdir/$_pkgname.conf "$pkgdir/etc/s6/config/$_pkgname.conf"
 
     # Add service type
     echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/type"
