@@ -1,0 +1,31 @@
+pkgname=device-xiaomi-pipa-runit
+pkgdesc="Package containing Runit configurations for Xiaomi Pad 6"
+pkgver=3
+pkgrel=1
+url="https://postmarketos.org"
+license=('MIT')
+arch=('aarch64')
+groups=('runit-pipa-armtix')
+depends=(
+	'device-xiaomi-pipa'
+	'hexagonrpcd-runit'
+	'qbootctl-runit'
+	'iio-sensor-proxy-libssc-runit'
+	'swclock-offset-runit'
+	'runit'
+)
+source=(
+	'hexagonrpcd.conf'
+)
+sha512sums=(
+	'7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144'
+)
+
+package() {
+	# Add hexagonrpcd related configs
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-sdsp/conf
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-adsp-rootpd/conf
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-adsp-sensorpd/conf
+}
+
+
