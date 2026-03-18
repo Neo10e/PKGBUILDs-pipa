@@ -1,0 +1,18 @@
+pkgname="qbootctl-dinit"
+pkgdesc="Mark current boot as successful in Android A/B interface"
+pkgver=0.2.2
+pkgrel=1
+arch=('any')
+url="https://github.com/linux-msm/qbootctl"
+license=('GPL-3.0-or-later')
+groups=('dinit-pipa-armtix')
+depends=('qbootctl' 'dinit')
+_pkgname=qbootctl
+install="$pkgname.install"
+source=("$_pkgname.dinitd")
+sha512sums=('dc3a3aa6c903e70f96799f1ce564a4442693399875bd5c6bfdae240e9301381fe87ec77993966bb0b2d1191785fe249c834325e040ea000335b1e4b22165ef28')
+
+package() {
+	# Install dinit service
+	install -Dm755 "$srcdir/$_pkgname.dinitd" "$pkgdir/etc/dinit.d/$_pkgname"
+}
