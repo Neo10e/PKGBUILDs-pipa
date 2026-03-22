@@ -30,7 +30,7 @@ package() {
 	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-adsp-sensorpd/conf
 
 	# Fix sensor suspend issue
-	install -Dm755 "${srcdir}/sensor-fix.sh" "${pkgdir}/lib/elogind/system-sleep/sensor-fix.sh"
+	install -Dm755 "${srcdir}/sensor-fix.sh" "${pkgdir}/usr/lib/elogind/system-sleep/sensor-fix.sh"
 }
 
 
