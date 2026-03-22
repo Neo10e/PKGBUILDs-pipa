@@ -1,0 +1,28 @@
+pkgname="hexagonrpcd-dinit"
+pkgdesc="Qualcomm HexagonFS daemon (dinit scripts)"
+pkgver=0.4.0
+pkgrel=1
+arch=('any')
+url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
+license=(GPL-3.0-or-later)
+groups=('dinit-pipa-armtix')
+depends=('hexagonrpcd' 'dinit')
+_pkgname=hexagonrpcd
+install="$pkgname.install"
+source=(
+    "$_pkgname-adsp-rootpd.dinitd"
+    "$_pkgname-adsp-sensorspd.dinitd"
+    "$_pkgname-sdsp.dinitd"
+)
+sha512sums=(
+    '0cb02376a626d03a3cd3baa77e0916e4db9062a82688f77e5b5c894d9112c0973d19a4aa90006cc2944b04903823ea69481ebc6e76594933a3393ed1288dba8e'
+    '2a4a5ccdfddfea902a3b4eb6fdef70313c3ebbabc70206d391e64c2481aeededd1697c7f25e4dd92e8ad33e4d86c6f0a1016be6a0d343688c90b857359d44f84'
+    'adf317aa1a19a5a60c5fdd39ee2aa5d5705788e19fa7d05f925570d44cf60fd28ccd5068b3543529e954d587eae0c1a8234c318b3824f44cf926aadc7e6c6240'
+)
+
+package() {
+    # Add Services for dinit
+	install -Dm755 $srcdir/$_pkgname-adsp-rootpd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-rootpd"
+	install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-sensorspd"
+	install -Dm755 $srcdir/$_pkgname-sdsp.dinitd "$pkgdir/etc/dinit.d/$_pkgname-sdsp"
+}
