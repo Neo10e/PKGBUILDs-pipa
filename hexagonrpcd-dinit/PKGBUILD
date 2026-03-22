@@ -1,7 +1,7 @@
 pkgname="hexagonrpcd-dinit"
 pkgdesc="Qualcomm HexagonFS daemon (dinit scripts)"
 pkgver=0.4.0
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
@@ -15,9 +15,9 @@ source=(
     "$_pkgname-sdsp.dinitd"
 )
 sha512sums=(
-    '0cb02376a626d03a3cd3baa77e0916e4db9062a82688f77e5b5c894d9112c0973d19a4aa90006cc2944b04903823ea69481ebc6e76594933a3393ed1288dba8e'
-    '2a4a5ccdfddfea902a3b4eb6fdef70313c3ebbabc70206d391e64c2481aeededd1697c7f25e4dd92e8ad33e4d86c6f0a1016be6a0d343688c90b857359d44f84'
-    'adf317aa1a19a5a60c5fdd39ee2aa5d5705788e19fa7d05f925570d44cf60fd28ccd5068b3543529e954d587eae0c1a8234c318b3824f44cf926aadc7e6c6240'
+    '352197e71668f3a1d51ddd2e3b38792590ebe815359c75dbea0c5755c2c8b6287e38cc7cb4bc80ad0fa2d0dcb0c30d3e0dd86d0d4799d65906c383cb8904dabe'
+    '17854764baaf072099bdeeef6e192231a0851ab987720c80a53b8e9cc7368337f5fdb7803063e398c33d4e6828383d2e428319105f3f6e64da4132719c3f7544'
+    '0fd5fc804468569ddc6fe888f6aaf64f2fd58f3aa87d8d64f0ad339471a4e5d7031584b402ef3bc7dba3fd62e903e31dfd9f35ebc8a9660e83e691081988c8df'
 )
 
 package() {
