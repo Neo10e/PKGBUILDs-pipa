@@ -10,7 +10,7 @@ depends=('iio-sensor-proxy-libssc' 'dinit')
 _pkgname=iio-sensor-proxy
 install="$pkgname.install"
 source=("$_pkgname-libssc.dinitd")
-sha512sums=('3732e1227d48e8e7f9d0cb356fe31cf0e529d3f6f137c32d98e3eb5dc851aee88d5cea9fb4466f3ab7793b03e6cd051d22b7aed9d901f29e66c22a55a9b85e81')
+sha512sums=('f61c59cb4b12440a72a8d8ac575f0b8021790f4925d00977235ea3c658070b0447b2cafa3a87df6a491005a634657389cb6627a2f8a8a0b5e7d36b9504a20982')
 
 package() {
 	install -Dm755 "$srcdir"/$_pkgname-libssc.dinitd "$pkgdir"/etc/dinit.d/$_pkgname-libssc
