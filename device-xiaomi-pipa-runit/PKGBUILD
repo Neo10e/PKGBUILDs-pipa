@@ -16,9 +16,11 @@ depends=(
 )
 source=(
 	'hexagonrpcd.conf'
+	'sensor-fix.sh'
 )
 sha512sums=(
 	'7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144'
+	'5024aec84678b1639696fc4ab774c3a952bdb3c8c2236fad11ba3ae172d53d706c0982ad86d1f4d0c7323294e5a448abb732a28604f07ade9b0e5da45ecc4754'
 )
 
 package() {
@@ -26,6 +28,9 @@ package() {
 	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-sdsp/conf
 	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-adsp-rootpd/conf
 	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/runit/sv/hexagonrpcd-adsp-sensorpd/conf
+
+	# Fix sensor suspend issue
+	install -Dm755 "${srcdir}/sensor-fix.sh" "${pkgdir}/lib/elogind/system-sleep/sensor-fix.sh"
 }
 
 
