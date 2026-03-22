@@ -1,0 +1,36 @@
+pkgname=device-xiaomi-pipa-dinit
+pkgdesc="Package containing dinit configurations for Xiaomi Pad 6"
+pkgver=3
+pkgrel=1
+url="https://postmarketos.org"
+license=('MIT')
+arch=('aarch64')
+groups=('dinit-pipa-armtix')
+depends=(
+	'device-xiaomi-pipa'
+	'hexagonrpcd-dinit'
+	'qbootctl-dinit'
+	'iio-sensor-proxy-libssc-dinit'
+	'swclock-offset-dinit'
+	'dinit'
+)
+source=(
+	'hexagonrpcd.conf'
+	'sensor-fix.sh'
+)
+sha512sums=(
+	'7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144'
+	'6fdba8f98470409f32867635a262e63c9f46d5cb0a184c5c1fc3c84076493b8743acb5b7455340116d0f25858f60f978b4a6d71b2eacd5e67523cc916d4e7ee7'
+)
+
+package() {
+	# Add hexagonrpcd related configs
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/dinit.d/config/hexagonrpcd-sdsp.conf
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/dinit.d/config/hexagonrpcd-adsp-rootpd.conf
+	install -Dm644 "$srcdir"/hexagonrpcd.conf "$pkgdir"/etc/dinit.d/config/hexagonrpcd-adsp-sensorpd.conf
+
+	# Fix sensor suspend issue
+	install -Dm755 "${srcdir}/sensor-fix.sh" "${pkgdir}/lib/elogind/system-sleep/sensor-fix.sh"
+}
+
+
