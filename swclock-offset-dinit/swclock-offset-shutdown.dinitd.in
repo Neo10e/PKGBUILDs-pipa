@@ -1,0 +1,8 @@
+type         = scripted
+command      = /bin/true
+stop-command = SWCLOCK_PATH/swclock-offset-shutdown
+restart      = false
+stop-timeout = 0
+after: halt.target
+after: reboot.target
+after: shutdown.target

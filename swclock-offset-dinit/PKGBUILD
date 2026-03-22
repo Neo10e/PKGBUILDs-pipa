@@ -1,0 +1,31 @@
+pkgname=swclock-offset-dinit
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="Activate swclock-offset using dinit"
+arch=('any')
+url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
+license=('GPL-3.0-or-later')
+groups=('dinit-pipa-armtix')
+depends=('swclock-offset' 'dinit')
+_pkgname=swclock-offset
+install="$pkgname.install"
+source=(
+    "$_pkgname-boot.dinitd.in"
+    "$_pkgname-shutdown.dinitd.in"
+)
+sha512sums=(
+    '6ba6654946ce4f3d6171243705b3c262e4cff5c185b8f182df01669ff0f85139f9da8bc7a55be88a045d7d30785bf4aeb1dc1870dbb94396e870a1202cb86ca9'
+    'e07e1d9e3168d803bde79926df0aad83235286784bbb5e7bb3ccae6f87993badcdf1fa91d9c0cf2e488597bfaa94fbd25758b5fb3b57fab34ebf92c9ab5a0677'
+)
+
+package() {
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.dinitd.in > $srcdir/$_pkgname-boot.dinitd
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.dinitd.in > $srcdir/$_pkgname-shutdown.dinitd
+
+	# Install dinit service
+	install -Dm755 $srcdir/$_pkgname-boot.dinitd \
+		"$pkgdir/etc/dinit.d/$_pkgname-boot"
+
+	install -Dm755 $srcdir/$_pkgname-shutdown.dinitd \
+		"$pkgdir/etc/dinit.d/$_pkgname-shutdown"
+}

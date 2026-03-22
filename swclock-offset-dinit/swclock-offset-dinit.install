@@ -1,0 +1,15 @@
+#!/bin/sh
+
+post_install() {
+    # assign swclock-offset services
+    dinitctl --quiet enable swclock-offset-boot 
+	dinitctl --quiet enable swclock-offset-shutdown 
+}
+
+pre_remove() {
+    # Restore the original state
+
+    # remove swclock-offset services
+    dinitctl --quiet disable swclock-offset-boot 
+	dinitctl --quiet disable swclock-offset-shutdown
+}

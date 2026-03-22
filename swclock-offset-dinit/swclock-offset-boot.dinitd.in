@@ -1,0 +1,8 @@
+type          = scripted
+command       = SWCLOCK_PATH/swclock-offset-boot
+restart       = false
+start-timeout = 0
+depends-on: udev-settle
+depends-on: early-prepare.target
+before: fsck
+before: fsck-root
