@@ -1,0 +1,17 @@
+pkgname=iio-sensor-proxy-libssc-dinit
+pkgver=3.8
+pkgrel=1
+pkgdesc='IIO accelerometer sensor to input device proxy (dinit scripts)'
+arch=('any')
+url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
+license=('GPL-2.0-or-later')
+groups=('dinit-pipa-armtix')
+depends=('iio-sensor-proxy-libssc' 'dinit')
+_pkgname=iio-sensor-proxy
+install="$pkgname.install"
+source=("$_pkgname-libssc.dinitd")
+sha512sums=('3732e1227d48e8e7f9d0cb356fe31cf0e529d3f6f137c32d98e3eb5dc851aee88d5cea9fb4466f3ab7793b03e6cd051d22b7aed9d901f29e66c22a55a9b85e81')
+
+package() {
+	install -Dm755 "$srcdir"/$_pkgname-libssc.dinitd "$pkgdir"/etc/dinit.d/$_pkgname-libssc
+}

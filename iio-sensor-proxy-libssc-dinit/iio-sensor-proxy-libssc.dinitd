@@ -1,0 +1,10 @@
+type    = process
+command = /usr/lib/iio-sensor-proxy
+restart = true
+depends-on: dbus
+waits-for: hexagonrpcd-adsp-rootpd
+waits-for: hexagonrpcd-adsp-sensorspd
+waits-for: hexagonrpcd-sdsp
+after: hexagonrpcd-adsp-rootpd
+after: hexagonrpcd-adsp-sensorspd
+after: hexagonrpcd-sdsp
