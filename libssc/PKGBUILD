@@ -2,8 +2,8 @@
 
 pkgname=libssc
 pkgdesc="Library to expose Qualcomm Sensor Core sensors"
-pkgver=0.4.1.r0.gfd58c74
-pkgrel=4
+pkgver=0.4.2.r0.gfea9c0d
+pkgrel=5
 _arches=specific
 arch=(any)
 license=(GPL-3.0-or-later)
@@ -21,7 +21,7 @@ makedepends=(
     meson
     git
 )
-_commit=fd58c74d81848a75cbe12b45e39486ebe7d89832 #main
+_commit=fea9c0d9ecb5b8aecdf26554b26c1df6286526df #main
 source=("git+https://codeberg.org/DylanVanAssche/libssc.git#commit=$_commit")
 sha256sums=(SKIP)
 
