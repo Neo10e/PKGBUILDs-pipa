@@ -8,8 +8,8 @@
 # Contributor: PedroHLC <root@pedrohlc.com>
 
 pkgname=gamescope
-pkgver=3.16.20.r8.gcebc073d
-pkgrel=1
+pkgver=3.16.22.r1.g36d9fa6a
+pkgrel=2
 pkgdesc='SteamOS session compositing window manager'
 arch=('x86_64' 'aarch64')
 url=https://github.com/ValveSoftware/gamescope
