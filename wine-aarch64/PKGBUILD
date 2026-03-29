@@ -1,6 +1,6 @@
 pkgname=wine-aarch64
-pkgver=hangover.11.0.r0.gf6816331a2c
-pkgrel=1
+pkgver=hangover.11.4.r0.g04d384823c7
+pkgrel=2
 source=(
   "git+https://github.com/AndreRH/wine.git"
   30-win32-aliases.conf
@@ -97,7 +97,7 @@ build() {
   local mtune="${flags["-mtune"]:-"cortex-a77"}"
 
   # add llvm mingw bin to path
-  export PATH="/opt/llvm-mingw/llvm-mingw-ucrt/bin:$PATH"
+  export PATH="/opt/llvm-mingw/bin:/opt/llvm-mingw/llvm-mingw-ucrt/bin:$PATH"
 
   # Native Linux/ARM64 compiler and flags
   export CC="clang"
