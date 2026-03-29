@@ -2,8 +2,8 @@
 
 _pkgname=MangoHud
 pkgname=mangohud-git
-pkgver=0.8.3.r24.g33c2c7d
-pkgrel=1
+pkgver=0.8.3.r43.gf2e45e9
+pkgrel=2
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more"
 url='https://github.com/flightlessmango/MangoHud'
 license=('MIT')
