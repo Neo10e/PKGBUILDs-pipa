@@ -10,20 +10,20 @@ url='https://github.com/ptitSeb/box64'
 license=('MIT')
 install="box64.install"
 depends=('gcc-libs')
-makedepends=('git' 'cmake' 'python' 'llvm-mingw-w64-toolchain-ucrt-bin')
+makedepends=('git' 'cmake' 'python' 'llvm-mingw-w64-toolchain')
 optdepends=(
 'wine: for running x86 windows binaries'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptitSeb/${pkgname}/archive/v${pkgver}.tar.gz"
         "box64.install")
 sha256sums=('4504b0df2d9ccfcf15b4d0c80664e216dc1170a4f8caeca46e79b93ff47e5e87'
-            '03c4d58a96d8738a1dd548b71ec96bd2629aa945840b17804b07f067cef1a83b')
+            'fbaf8ba4d0e3fa45c1f9f2e715c310e735c0bfc954dccbf0f04a228dd4236421')
 
 build() {
     cd ${pkgname}-${pkgver}
 
 	# add llvm mingw bin to path
-    export PATH="/opt/llvm-mingw/llvm-mingw-ucrt/bin:$PATH"
+    export PATH="/opt/llvm-mingw/bin:/opt/llvm-mingw/llvm-mingw-ucrt/bin:$PATH"
     
 	# we know this will be running on a pipa
 	march="armv8.2-a+crypto+crc" 
