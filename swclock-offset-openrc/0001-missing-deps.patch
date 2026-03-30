@@ -1,0 +1,12 @@
+--- a/openrc/swclock-offset-boot.initd.in
++++ b/openrc/swclock-offset-boot.initd.in
+@@ -6,6 +6,8 @@
+ depend()
+ {
+ 	before fsck
++	need udev-settle
++	after udev-settle
+ }
+ 
+ start()
+ 
