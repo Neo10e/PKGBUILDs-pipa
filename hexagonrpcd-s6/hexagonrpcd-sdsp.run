@@ -1,5 +1,5 @@
 #!/usr/bin/execlineb -P
-envfile /etc/s6/config/hexagonrpcd-adsp-rootpd.conf
+envfile /etc/s6/config/hexagonrpcd-sdsp.conf
 importas hexagonrpcd_fw_dir hexagonrpcd_fw_dir
 define args "-f /dev/fastrpc-sdsp -d sdsp -s"
 foreground { if { "${hexagonrpcd_fw_dir}" } define args "${args} -R ${hexagonrpcd_fw_dir}" }
