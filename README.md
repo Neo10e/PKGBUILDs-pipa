@@ -1,9 +1,9 @@
 This repository hosts
-[PKGBUILDs](https://wiki.archlinux.org/index.php/PKGBUILD) packages for xiaomi-pipa (also known as Xiaomi Pad 6) running Arch Linux ARM (alarm)
-Packages here are tailored specific to pipa and a hosted repo can be found at [pipa-alarm](https://github.com/maakiopus/pipa-alarm/)
+[PKGBUILDs](https://wiki.archlinux.org/index.php/PKGBUILD) packages for Xiaomi Pad 6 (pipa) running Artix Linux port for aarch64 (ARMtix).
+Packages here are tailored specific to pipa and a hosted repo can be found at [pipa-armtix](https://github.com/Neo10e/pipa-armtix)
 
-These packages are meant to be built on Arch Linux ARM, found at
-http://archlinuxarm.org
+These packages are meant to be built on ARMtix, found at
+https://armtixlinux.org
 
 ## Layout
 New packages should be placed in the correct locations, with the package's base
@@ -14,3 +14,5 @@ for multiple-package PKGBUILDs.
 Please create issues for out of date packages or send a PR
 
 PR's are absolutely welcome.
+
+For packages that exist in the [upstream repository](https://github.com/maakiopus/PKGBUILDs-pipa), please feel free to submit changes there as well.
