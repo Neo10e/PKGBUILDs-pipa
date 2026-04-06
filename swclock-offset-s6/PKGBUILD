@@ -1,6 +1,6 @@
 pkgname=swclock-offset-s6
 pkgver=0.3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Activate swclock-offset using skarnet's s6"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
@@ -10,7 +10,7 @@ depends=('swclock-offset' 's6-base')
 _pkgname=swclock-offset
 install="$pkgname.install"
 source=(
-    "$_pkgname-boot.run.in"
+    "$_pkgname-boot.up.in"
     "$_pkgname-shutdown.down.in"
 )
 sha512sums=(
@@ -19,21 +19,25 @@ sha512sums=(
 )
 
 package() {
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.run.in > $srcdir/$_pkgname-boot.run
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.up.in > $srcdir/$_pkgname-boot.up
 	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.down.in > $srcdir/$_pkgname-shutdown.down
 
     # Install s6 service
-	install -Dm755 $srcdir/$_pkgname-boot.run \
-		"$pkgdir/etc/s6/sv/$_pkgname-boot/run"
+	install -Dm755 $srcdir/$_pkgname-boot.up \
+		"$pkgdir/etc/s6/sv/$_pkgname-boot/up"
 
 	install -Dm755 $srcdir/$_pkgname-shutdown.down \
 		"$pkgdir/etc/s6/sv/$_pkgname-shutdown/down"
 
     # Add service type
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-boot/type"      # oneshot doesn't work for some reason
+    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname-boot/type"
     echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
 
-    # Trick to reload database
+    # Add dependency
+    install -d "$pkgdir/etc/s6/sv/$_pkgname-boot/dependencies.d"
+    touch udev "$pkgdir/etc/s6/sv/$_pkgname-boot/dependencies.d/udev"
+
+    # Trick to make reload database possible
     cat > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/up" <<EOF
 #!/bin/execlineb -P
 exit 0
