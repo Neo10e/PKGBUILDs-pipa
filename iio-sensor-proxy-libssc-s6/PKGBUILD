@@ -1,6 +1,6 @@
 pkgname=iio-sensor-proxy-libssc-s6
 pkgver=3.8
-pkgrel=1
+pkgrel=2
 pkgdesc='IIO accelerometer sensor to input device proxy (Runit init scripts)'
 arch=('any')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
@@ -20,6 +20,6 @@ package() {
     echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-libssc/type"
 
     # Add dependency
-    install -d "$pkgdir/etc/s6/sv/$_pkgname-libssc/depedendencies.d"
-    touch dbus "$pkgdir/etc/s6/sv/$_pkgname-libssc/depedendencies.d/dbus"
+    install -d "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d"
+    touch dbus "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d/dbus"
 }
