@@ -1,7 +1,5 @@
 #!/usr/bin/execlineb -P
 envfile /etc/s6/config/hexagonrpcd-sdsp.conf
 importas hexagonrpcd_fw_dir hexagonrpcd_fw_dir
-define args "-f /dev/fastrpc-sdsp -d sdsp -s"
-foreground { if { "${hexagonrpcd_fw_dir}" } define args "${args} -R ${hexagonrpcd_fw_dir}" }
-fdmove -c 2 1
-exec s6-setuidgid fastrpc /usr/bin/hexagonrpcd ${args}
+redirfd -w 2 /dev/null
+exec s6-setuidgid fastrpc /usr/bin/hexagonrpcd -f /dev/fastrpc-sdsp -d sdsp -s -R ${hexagonrpcd_fw_dir}

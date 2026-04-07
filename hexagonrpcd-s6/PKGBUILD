@@ -1,7 +1,7 @@
 pkgname="hexagonrpcd-s6"
 pkgdesc="Qualcomm HexagonFS daemon (s6 init scripts)"
 pkgver=0.4.0
-pkgrel=2
+pkgrel=3
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
@@ -15,9 +15,9 @@ source=(
     "$_pkgname-sdsp.run"
 )
 sha512sums=(
-    '0ad167e205cdd395d5477a86ac5f2ed3e79e0d4d96d5ce218936e4b17c2e3e77241c493e56bef7a836377bb68f414500e8954861dc708c6080e92bce80976f05'
-    'ee3e0a0605abf1de9d925f3c2fd61c2b64c3937f86360e5ec2804717e2db747931fcff7800f51dd12d5b04f459e6bfb146bcbdc8967410287aaed510eca5acb1'
-    '28eefcd854d17ebd0e9b1f708c548c4cac2cc11411ff81a321272b5ca84f828a408d217cec34f8f1cee7eb12cecae39f49ad5fd7381f674c00100a634282d642'
+    '9cff0eab6c7bc246ff42870e98af6345824dfd3b7ac236d5a4f28e947aac01d7a74871f0293b2e18dbd237169ad95979893c96d67a8a2cd602556f6b87dc3b0d'
+    '10409d435dc4b43f19073971587f4d28ab748476482d2a759b726f390d38d1bedbed6900f7d08888b2f3f91ec9672cb365b90d6a2785c6aaceb47001cbb9261b'
+    'e8033fbde69034490faa8e6d4a3295efe52ee3451bdad3c3a99b589f9255fbf839736c22a443a2e223bb1ab5a4596083346b946d3c263dd94dea4c75da7534a6'
 )
 
 package() {
