@@ -1,0 +1,7 @@
+#!/bin/sh
+[ -r /etc/dinit.d/config/hexagonrpcd-adsp-sensorpd.conf ] && . /etc/dinit.d/config/hexagonrpcd-adsp-sensorpd.conf
+
+args="-f /dev/fastrpc-adsp -d adsp -s"
+[ -n "$hexagonrpcd_fw_dir" ] && args="$args -R ${hexagonrpcd_fw_dir}"
+
+exec /usr/bin/hexagonrpcd $args

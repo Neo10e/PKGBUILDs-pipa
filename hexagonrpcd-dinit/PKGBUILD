@@ -1,7 +1,7 @@
 pkgname="hexagonrpcd-dinit"
 pkgdesc="Qualcomm HexagonFS daemon (dinit scripts)"
 pkgver=0.4.0
-pkgrel=2
+pkgrel=3
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
@@ -13,16 +13,27 @@ source=(
     "$_pkgname-adsp-rootpd.dinitd"
     "$_pkgname-adsp-sensorspd.dinitd"
     "$_pkgname-sdsp.dinitd"
+    "$_pkgname-adsp-rootpd.script"
+    "$_pkgname-adsp-sensorspd.script"
+    "$_pkgname-sdsp.script"
 )
 sha512sums=(
-    '352197e71668f3a1d51ddd2e3b38792590ebe815359c75dbea0c5755c2c8b6287e38cc7cb4bc80ad0fa2d0dcb0c30d3e0dd86d0d4799d65906c383cb8904dabe'
-    '17854764baaf072099bdeeef6e192231a0851ab987720c80a53b8e9cc7368337f5fdb7803063e398c33d4e6828383d2e428319105f3f6e64da4132719c3f7544'
-    '0fd5fc804468569ddc6fe888f6aaf64f2fd58f3aa87d8d64f0ad339471a4e5d7031584b402ef3bc7dba3fd62e903e31dfd9f35ebc8a9660e83e691081988c8df'
+    'a0df5005998c2d7c80b128eaae909b5149db471b8f37133121f9234f1edc15d37eeecc23f1ab4d94558baf581fe9f5e7b71ca807c4300f3958c6cfe6acd685d2'
+    '80e1fccd7333826af4557f9d03f99eff468bae8f9a5a259982be0c2ab1a4fcd543b7684b470b46d99381d6a788d85d21067911a7dcde75054948e816aa775075'
+    '385a1c8a084f9519f112c261c219fb185d68bc5a3b00038c4bf4208ea37b86c515710fee90f2e8e72fd688fad83c717cdb6b64e7d1c42b2bfa2e648b1eedaf9b'
+    'f953c3dd20e6c47f8ed1ca493bb5158ea551bde58c035007f94bd07758ad77e2bb4a2741191f902a42184260bcc0046b7c85169a0dc99a5fc51b477bd1b79d95'
+    '20b48eb1d82c270b1071509de870039f28b1cfa88efb4539734d3f9b2899b9c6b97e754a3ee4e662c574201d4b6f2ee54ddbf2fb70bb4786a64ebeb8ce77ea27'
+    '26992c495ba876a0c399c9da01959144d5be773ddb2652e413fb494e3c6cd8f6f91824ba5b8997789e121a3bea84f26b0a139198431badd45c8129ea0d005e79'
 )
 
 package() {
     # Add Services for dinit
-	install -Dm755 $srcdir/$_pkgname-adsp-rootpd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-rootpd"
-	install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-sensorspd"
-	install -Dm755 $srcdir/$_pkgname-sdsp.dinitd "$pkgdir/etc/dinit.d/$_pkgname-sdsp"
+	install -Dm644 $srcdir/$_pkgname-adsp-rootpd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-rootpd"
+	install -Dm644 $srcdir/$_pkgname-adsp-sensorspd.dinitd "$pkgdir/etc/dinit.d/$_pkgname-adsp-sensorspd"
+	install -Dm644 $srcdir/$_pkgname-sdsp.dinitd "$pkgdir/etc/dinit.d/$_pkgname-sdsp"
+
+    # Add scripts
+    install -Dm755 $srcdir/$_pkgname-adsp-rootpd.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"
+    install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"
+    install -Dm755 $srcdir/$_pkgname-sdsp.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"    
 }

@@ -1,7 +1,8 @@
-type          = process
-command       = /usr/bin/hexagonrpcd -f /dev/fastrpc-adsp -d adsp -s -R ${hexagonrpcd_fw_dir}
-run-as        = fastrpc
-env-file      = /etc/dinit.d/config/hexagonrpcd-adsp-sensorpd.conf
-restart       = true
-restart-delay = 2
-before: iio-sensor-proxy-libssc
+type            = process
+command         = /usr/lib/dinit/hexagonrpcd-adsp-sensorpd
+run-as          = fastrpc
+restart         = true
+smooth-recovery = true
+restart-delay   = 2
+depends-on: local.target
+before: login.target
