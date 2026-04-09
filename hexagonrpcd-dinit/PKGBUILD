@@ -33,7 +33,7 @@ package() {
 	install -Dm644 $srcdir/$_pkgname-sdsp.dinitd "$pkgdir/etc/dinit.d/$_pkgname-sdsp"
 
     # Add scripts
-    install -Dm755 $srcdir/$_pkgname-adsp-rootpd.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"
-    install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"
+    install -Dm755 $srcdir/$_pkgname-adsp-rootpd.script "$pkgdir/usr/lib/dinit/$_pkgname-adsp-rootpd"
+    install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.script "$pkgdir/usr/lib/dinit/$_pkgname-adsp-sensorspd"
     install -Dm755 $srcdir/$_pkgname-sdsp.script "$pkgdir/usr/lib/dinit/$_pkgname-sdsp"    
 }
