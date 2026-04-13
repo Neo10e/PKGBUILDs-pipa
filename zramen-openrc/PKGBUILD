@@ -1,0 +1,28 @@
+# Contributor: linuxer <https://gitea.artixlinux.org/linuxer>
+
+pkgname="zramen-openrc"
+pkgdesc="OpenRC script for zramen"
+pkgver=20260414
+pkgrel=1
+arch=('any')
+url="https://gitea.artixlinux.org/linuxer"
+license=('Unlicense')
+groups=('openrc-pipa-armtix')
+depends=('zramen' 'openrc')
+_pkgname=zramen
+source=(
+    "$_pkgname.initd"
+    "$_pkgname.confd"
+)
+sha256sums=(
+    'f0270097628173be49c9933b17e8621a3a820456bcc1966331925716b49df34a'
+    'b54d412e3c05a0d5b6a6c5ebefffc40e07c01ba5fd7a5a89a3219015a68db613'
+)
+
+package() {
+    # Install openrc service
+    install -Dm755 "$srcdir/$_pkgname.initd" "$pkgdir/etc/init.d/$_pkgname"
+
+    # Add zramen related config
+	install -Dm644 "$srcdir/$_pkgname.confd" "$pkgdir/etc/conf.d/$_pkgname"
+}
