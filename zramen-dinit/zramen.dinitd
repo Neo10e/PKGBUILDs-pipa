@@ -1,0 +1,7 @@
+type            = scripted
+command         = /usr/bin/zramen make
+stop-command    = /usr/bin/zramen toss
+env-file        = /etc/dinit.d/config/zramen.conf
+smooth-recovery = true
+log-type        = buffer
+waits-for       = pre-local.target

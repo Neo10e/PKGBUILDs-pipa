@@ -1,0 +1,31 @@
+# Contributor: Carlos Eduardo <capezotte@artixlinux.org>
+# Contributor: Nathan <ndowens@artixlinux.org>
+
+pkgname=zramen-dinit
+pkgver=20260414
+pkgrel=1
+pkgdesc="dinit service scripts for zramen"
+arch=('any')
+url="https://artixlinux.org"
+license=('BSD')
+groups=('dinit-pipa-armtix')
+depends=('zramen' 'dinit')
+conflicts=('init-zramen')
+provides=('init-zramen')
+_pkgname=zramen
+source=(
+    "$_pkgname.dinitd"
+    "$_pkgname.conf"
+)
+sha256sums=(
+    '9d2940bfd2be4d0b0eba4a7bf17c319dcc61f685bed172b26ae500b3e0b491eb'
+    'b54d412e3c05a0d5b6a6c5ebefffc40e07c01ba5fd7a5a89a3219015a68db613'
+)
+
+package() {
+    # Install dinit service
+    install -Dm644 "$srcdir/$_pkgname.dinit" "$pkgdir/etc/dinit.d/$_pkgname"
+
+    # Add zramen related config
+	install -Dm644 "$srcdir/$_pkgname.confd" "$pkgdir/etc/conf.d/config/$_pkgname"
+}
