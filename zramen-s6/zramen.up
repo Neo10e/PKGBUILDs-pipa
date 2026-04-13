@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -r /etc/s6/config/zramen.conf ] && . /etc/s6/config/zramen.conf
+exec /usr/bin/zramen make

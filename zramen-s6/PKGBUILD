@@ -1,0 +1,34 @@
+# Contributor: linuxer <https://gitea.artixlinux.org/linuxer>
+
+pkgname="zramen-s6"
+pkgdesc="S6 script for zramen"
+pkgver=20260414
+pkgrel=1
+arch=('any')
+url="https://gitea.artixlinux.org/linuxer"
+license=('Unlicense')
+groups=('s6-pipa-armtix')
+depends=('zramen' 's6-base')
+_pkgname=zramen
+source=(
+    "$_pkgname.up"
+    "$_pkgname.down"
+    "$_pkgname.conf"
+)
+sha256sums=(
+    '680374372532a2cbe7bbc8903f1dc50bfea01665accb914cfe31b08e9fd492fa'
+    '9f998444452541b84770773dc63c5d373da6b9b18371cec08a8a6414b505e029'
+    'b54d412e3c05a0d5b6a6c5ebefffc40e07c01ba5fd7a5a89a3219015a68db613'
+)
+
+package() {
+    # Install s6 service
+    install -Dm755 "$srcdir/$_pkgname.up" "$pkgdir/etc/s6/sv/$_pkgname/up"
+    install -Dm755 "$srcdir/$_pkgname.down" "$pkgdir/etc/s6/sv/$_pkgname/down"
+
+    # Add zramen related config
+    install -Dm644 "$srcdir/$_pkgname.conf" "$pkgdir/etc/s6/config/$_pkgname.conf"
+
+    # Add service type
+    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname/type"
+}
