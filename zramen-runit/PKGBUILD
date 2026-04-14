@@ -11,7 +11,7 @@ groups=('runit-pipa-armtix')
 depends=('zramen' 'runit')
 _pkgname=zramen
 source=("https://github.com/atweiden/$_pkgname/releases/download/${pkgver}/$_pkgname-${pkgver}.tar.gz")
-sha512sums=('01e7d90891151e08dc3a6630c15da5795d4ed7a7ebabfbb585ecfe6defa8130d')
+sha256sums=('01e7d90891151e08dc3a6630c15da5795d4ed7a7ebabfbb585ecfe6defa8130d')
 
 package() {
     echo "${srcdir}/${_pkgname}-${pkgver}"
