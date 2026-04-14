@@ -27,5 +27,5 @@ package() {
     install -Dm644 "$srcdir/$_pkgname.dinit" "$pkgdir/etc/dinit.d/$_pkgname"
 
     # Add zramen related config
-	install -Dm644 "$srcdir/$_pkgname.confd" "$pkgdir/etc/conf.d/config/$_pkgname"
+	install -Dm644 "$srcdir/$_pkgname.conf" "$pkgdir/etc/conf.d/config/$_pkgname"
 }
