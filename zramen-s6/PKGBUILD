@@ -2,8 +2,8 @@
 
 pkgname="zramen-s6"
 pkgdesc="S6 script for zramen"
-pkgver=20260414
-pkgrel=1
+pkgver=20260416
+pkgrel=2
 arch=('any')
 url="https://gitea.artixlinux.org/linuxer"
 license=('Unlicense')
@@ -16,9 +16,9 @@ source=(
     "$_pkgname.conf"
 )
 sha256sums=(
-    '680374372532a2cbe7bbc8903f1dc50bfea01665accb914cfe31b08e9fd492fa'
-    '9f998444452541b84770773dc63c5d373da6b9b18371cec08a8a6414b505e029'
-    'b54d412e3c05a0d5b6a6c5ebefffc40e07c01ba5fd7a5a89a3219015a68db613'
+    '2fc229ed985c12b930aa620a83f43d532c94cf718bdc48a70928c4775c87c3ac'
+    '6027845d8c7f80786fa22bc124823b31af94d65c161e7652b4ea2bd9e8791c63'
+    '01066e894f524b538f5bbe0697a8280637a002a63362d355207697299419a246'
 )
 
 package() {
