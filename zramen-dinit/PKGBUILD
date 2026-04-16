@@ -2,8 +2,8 @@
 # Contributor: Nathan <ndowens@artixlinux.org>
 
 pkgname=zramen-dinit
-pkgver=20260414
-pkgrel=1
+pkgver=20260417
+pkgrel=2
 pkgdesc="dinit service scripts for zramen"
 arch=('any')
 url="https://artixlinux.org"
@@ -19,7 +19,7 @@ source=(
 )
 sha256sums=(
     '9d2940bfd2be4d0b0eba4a7bf17c319dcc61f685bed172b26ae500b3e0b491eb'
-    'b54d412e3c05a0d5b6a6c5ebefffc40e07c01ba5fd7a5a89a3219015a68db613'
+    '01066e894f524b538f5bbe0697a8280637a002a63362d355207697299419a246'
 )
 
 package() {
@@ -27,5 +27,5 @@ package() {
     install -Dm644 "$srcdir/$_pkgname.dinitd" "$pkgdir/etc/dinit.d/$_pkgname"
 
     # Add zramen related config
-	install -Dm644 "$srcdir/$_pkgname.conf" "$pkgdir/etc/conf.d/config/$_pkgname"
+	install -Dm644 "$srcdir/$_pkgname.conf" "$pkgdir/etc/dinit.d/config/$_pkgname.conf"
 }
