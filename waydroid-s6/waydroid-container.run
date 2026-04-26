@@ -1,0 +1,4 @@
+#!/bin/execlineb -P
+ifelse { test -c /dev/loop-control } { } { modprobe loop }
+ifelse { test -d /sys/fs/fuse/connections } { } { modprobe fuse }
+exec waydroid container start

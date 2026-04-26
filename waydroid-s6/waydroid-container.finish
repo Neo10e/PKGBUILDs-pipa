@@ -1,0 +1,3 @@
+#!/bin/execlineb -P
+waydroid container stop
+waydroid session stop
