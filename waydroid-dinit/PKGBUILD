@@ -1,0 +1,17 @@
+pkgname="waydroid-dinit"
+pkgdesc="Waydroid Container Manager as a dinit service"
+pkgver=1.6.2
+pkgrel=1
+arch=('any')
+url="https://github.com/waydroid/waydroid"
+license=('GPL-3.0-or-later')
+groups=('dinit-pipa-armtix')
+depends=('waydroid' 'dinit')
+_pkgname=waydroid
+source=("$_pkgname-container.dinitd")
+sha512sums=('5aed0663eae3798529fae33b4643afd7b044db02485b97e9ab45f9e9bb5034ad7272d9c53a8a7ddcc8b5eb3b32496447e802d85f76c5c36198e0534b98f88df5')
+
+package() {
+	# Install dinit service
+	install -Dm755 "$srcdir/$_pkgname-container.dinitd" "$pkgdir/etc/dinit.d/$_pkgname-container"
+}
