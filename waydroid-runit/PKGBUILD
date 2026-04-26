@@ -1,0 +1,24 @@
+pkgname="waydroid-runit"
+pkgdesc="Waydroid Container Manager as a Runit service"
+pkgver=1.6.2
+pkgrel=1
+arch=('any')
+url="https://github.com/waydroid/waydroid"
+license=('GPL-3.0-or-later')
+groups=('runit-pipa-armtix')
+depends=('waydroid' 'runit')
+_pkgname=waydroid
+source=(
+	"$_pkgname-container.run"
+	"$_pkgname-container.finish"
+)
+sha512sums=(
+	'c58939b80d901a20a9b82ff0db8f4c4622d1c8f55d372febcd4a29b4b89ef45e5c96f5f48314bdcc93d83e15253cf1b10f5d03411aff55e2c8652fa88a55ee0c'
+	'75c48caab0081451d700f2a570eeeccc63aee61c934f647dd4639ca3d587686179cab07368cbba9be2d7adda6268f2448ce4be5d06bb13b79d6d8f3c7d1c4567'
+)
+
+package() {
+	# Install runit services
+	install -Dm755 "$srcdir/$_pkgname-container.run" "$pkgdir/etc/runit/sv/$_pkgname-container/run"
+	install -Dm755 "$srcdir/$_pkgname-container.finish" "$pkgdir/etc/runit/sv/$_pkgname-container/finish"
+}

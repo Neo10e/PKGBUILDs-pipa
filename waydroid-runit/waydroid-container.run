@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -c /dev/loop-control ] || modprobe loop
+[ -d /sys/fs/fuse/connections ] || modprobe fuse
+exec waydroid container start
