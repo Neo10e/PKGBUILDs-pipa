@@ -1,0 +1,45 @@
+# Maintainer: Integral <integral@member.fsf.org>
+# Contributor: Sick Codes <info at sick dot codes>
+# Contributor: Wachid Adi Nugroho <wachidadinugroho.maya@gmail.com>
+# Contributor: Danct12 <danct12@disroot.org>
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+
+pkgname=waydroid-git
+_pkgname=${pkgname%-git}
+pkgver=1.6.2.r8.g9478d59
+pkgrel=1
+pkgdesc="A container-based approach to boot a full Android system on a regular Linux system"
+arch=('any')
+url="https://github.com/${_pkgname}/${_pkgname}"
+license=('GPL-3.0-or-later')
+depends=(
+	'lxc'
+	'python'
+	'python-gbinder'
+	'python-gobject'
+	'nftables'
+	'dnsmasq'
+	'gtk3'
+	'dbus-python'
+	'pulse-native-provider'
+)
+makedepends=('git')
+optdepends=(
+	"waydroid-image: Android image for use with ${_pkgname}"
+	'python-pyclip: share clipboard with container'
+)
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+source=("git+${url}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	git -C "${_pkgname}" describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+	DESTDIR="${pkgdir}" USE_SYSTEMD=0 USE_NFTABLES=1 make -C "${_pkgname}" install
+
+	# Byte-compile Python files during the packaging process instead of at runtime
+	python -m compileall -o 0 -o 1 -p / -s "${pkgdir}" "${pkgdir}/usr/lib/waydroid/tools/"
+}
