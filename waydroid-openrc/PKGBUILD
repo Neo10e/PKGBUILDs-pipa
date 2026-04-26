@@ -1,0 +1,19 @@
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+
+pkgname="waydroid-openrc"
+pkgdesc="Waydroid Container Manager as an OpenRC service"
+pkgver=1.6.2
+pkgrel=1
+arch=('any')
+url="https://github.com/waydroid/waydroid"
+license=('GPL-3.0-or-later')
+groups=('openrc-pipa-armtix')
+depends=('waydroid' 'openrc')
+_pkgname=waydroid
+source=("$_pkgname-container.initd")
+sha512sums=('c4b8429b9497e1eb04fe60498736bb54eb34bafc6818bd6692cf54802ae6ee4740da626046217d17421a1a6d8b3f672502a4bad338814fa6ef123e9c7ddf7f31')
+
+package() {
+	# Install openrc service
+	install -Dm755 "$srcdir/$_pkgname-container.initd" "$pkgdir/etc/init.d/$_pkgname-container"
+}
