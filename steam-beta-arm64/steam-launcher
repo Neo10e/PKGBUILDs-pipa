@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+CDN_BASE_URL=https://steamcdn-a.akamaihd.net/client
+MANIFEST=steam_client_publicbeta_linuxarm64
+BINSZIP=bins_linuxarm64_linuxarm64.zip
+STEAMDIR="$HOME/.local/share/Steam"
+STEAM_BIN="$STEAMDIR/steamrtarm64/steam"
+
+info() {
+    printf "\e[1;34m-> %s\e[0m\n" "$*"
+}
+
+log() {
+    printf "\e[1;32m-> %s\e[0m\n" "$*"
+}
+
+error() {
+    printf "\e[1;31mError: %s\e[0m\n" "$*" >&2
+    exit 1
+}
+
+if [[ ! -x "$STEAM_BIN" ]]; then
+    info "First launch - installing Steam ARM64 in the user directory..."
+
+    log Removing the old Steam client
+    [ -d "$HOME/.steam" ] && rm -rf "$HOME/.steam"
+    [ -d "$STEAMDIR" ] && rm -rf "$STEAMDIR"
+
+    log Preparing catalog
+    mkdir -p "$STEAMDIR"
+    cd "$STEAMDIR"
+
+    log Download manifest $MANIFEST
+    curl -# -L -o "$MANIFEST" "${CDN_BASE_URL}/${MANIFEST}" || error "Failed to download the manifest"
+
+    log Parsing client base from manifest
+    bins_linuxarm64_linuxarm64="$(grep "$MANIFEST" -e 'file.*bins_linuxarm64_linuxarm64' | sed 's/^[[:space:]]*"file"*[[:space:]]*"//;s/"[[:space:]]*$//')"
+
+
+    log Downloading client base
+    curl -# -o "$BINSZIP" "$CDN_BASE_URL/$bins_linuxarm64_linuxarm64" || error "Failed to download client base from the manifest"
+
+    log Extracting client base
+    unzip "$BINSZIP" 'steamrtarm64/*' -d "$STEAMDIR" 2>&1 > /dev/null
+
+    log Enabling publicbeta channel
+    mkdir -p "$STEAMDIR/package"
+    echo "publicbeta" > "$STEAMDIR/package/beta"
+
+    log Satisfy conditions for running steamrt client
+    touch "$STEAMDIR/.steam-enable-steamrt64-client"
+    chmod +x "$STEAMDIR/steamrtarm64/steam"
+    chmod +x "$STEAMDIR/steamrtarm64/steamwebhelper" 2>/dev/null || true
+    chmod +x "$STEAMDIR/steamrtarm64/steamwebhelper.sh" 2>/dev/null || true
+    chmod +x "$STEAMDIR/steamrtarm64/gldriverquery" 2>/dev/null || true
+    chmod +x "$STEAMDIR/steamrtarm64/vulkandriverquery" 2>/dev/null || true
+    chmod +x "$STEAMDIR/steamrtarm64/steamsysinfo" 2>/dev/null || true
+
+    log Preparing environment
+    mkdir -p "$HOME/.steam"
+    ln -sfn "$STEAMDIR" "$HOME/.steam/steam"
+    ln -sfn "$STEAMDIR/linuxarm64" "$HOME/.steam/sdkarm64"
+    ln -sfn "$STEAMDIR/linux64" "$HOME/.steam/sdk64"
+    ln -sfn "$STEAMDIR/linux32" "$HOME/.steam/sdk32"
+    
+    log Ensure that the arm64 version of the steamrt based steam binary is used
+    ln -sfn "$STEAMDIR/steamrtarm64" "$STEAMDIR/steamrt64"
+
+    log Bootstrapping client
+    set +e
+    "$STEAM_BIN" >/dev/null 2>&1
+    set -e
+
+    log Cleaning
+    rm -f "$MANIFEST"
+    rm -f "$BINSZIP"
+
+    info "Installation complete."
+fi
+
+info "Launching Steam"
+export LD_LIBRARY_PATH="$STEAMDIR/steamrtarm64/":$LD_LIBRARY_PATH
+"$STEAM_BIN" -noverifyfiles
