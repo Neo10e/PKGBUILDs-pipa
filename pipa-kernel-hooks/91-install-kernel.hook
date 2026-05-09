@@ -20,7 +20,7 @@ Operation = Install
 Operation = Upgrade
 Target = mkinitcpio
 Target = mkinitcpio-git
-Target = linux-pipa
+Target = linux
 
 [Action]
 Description = Generating and Flashing boot.img...

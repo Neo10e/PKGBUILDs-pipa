@@ -2,7 +2,7 @@
 
 pkgname=pipa-kernel-hooks
 pkgver=1.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Pacman hooks to build and deploy kernel on Xiaomi Pad 6 [Pipa]"
 arch=("any")
 url=""
@@ -12,7 +12,7 @@ depends=(
 	"coreutils"
     "mkbootimg-pipa"
     "qbootctl"
-    "linux-pipa"
+    "linux"
     "linux-firmware-pipa-adreno"
     "linux-firmware-pipa-adsp"
     "linux-firmware-pipa-cdsp"
