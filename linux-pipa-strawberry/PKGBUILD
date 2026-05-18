@@ -6,7 +6,7 @@ _srcname="linux-pipa-7.0.8-Stable"
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Xiaomi Pad 6 (pipa) built from rmux's pipa/7.0.8-Stable branch"
 pkgver=7.0.8
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 url="https://github.com/PipaDB/linux"
 license=('GPL2')
@@ -18,7 +18,7 @@ source=("$url/archive/refs/heads/$_branch.tar.gz"
         'linux-pipa.preset'
         'cmdline.txt')
 sha512sums=('SKIP'
-         '82e1083afa24b285f7a6e981597a26371dc32f8bf9f6e9e7642c86aacf6dbaefae773a18d5fa27418df46da28c0af8ef0e07b37540a0795bcfdfc8db5886674a'
+         '8f49a5a3e21b326f0226a8d2967ef81e1bf710dfbe923199e6dd3f87a58e33912238897a78fecb0fa9f98d7266c39af6297ce158fd4e9f6bc4c4c4dfae126075'
          '78e5f43b582438e1e1c30948a099f751f91c756d0b35414f734587680e09f7c1b6ff5c137b2027526818f6a26278981d77d2ed45f9a4f198a14d5e68f6beab2d'
          '6e1d9dffd460e4f4bffd00673045e32c01d47529de0da8246ee0eea60e1bd60f9fcccf12a69e75dd96195b91c19c4834a98052b8720b84b8e7bbd3b1f27d5b84')
 
