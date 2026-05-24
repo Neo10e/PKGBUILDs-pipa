@@ -6,7 +6,7 @@
 
 pkgname=iio-sensor-proxy-libssc
 pkgver=3.8
-pkgrel=4
+pkgrel=5
 pkgdesc='IIO accelerometer sensor to input device proxy'
 arch=('x86_64' 'aarch64')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
@@ -24,7 +24,6 @@ source=(
 	"0003-light-support-SSC-light-sensor.patch"
 	"0004-accelerometer-support-SSC-accelerometer-sensor.patch"
 	"0005-compass-support-SSC-compass-sensor.patch"
-	"0006-data-iio-sensor-proxy.service.in-add-AF_QIPCRTR.patch"
 	"0007-drv-ssc-implement-set_polling.patch"
 	"0008-tests-integration-test-add-SSC-sensors.patch"
 	"0010-ssc-Simplify-sensor-handling.patch"
@@ -39,7 +38,6 @@ sha512sums=(
   'cbd22a15a21de58cf0c8d558274351590b794488c79d67ecd68d666155e2eff279ee4c7c823eb5899eb4c39a0ce6d075f94865302ccc212a0072b36efca28d4f'
   '197a9d87e4565eb1749e004e32d43ab0b3c7e1e2b1c887d8caa8b954e9f26a67fa473a0b4e7e14ccfea92860461df8524f6d3412354d8195e7f6397f2622e0bb'
   '92b5311eb2bd3da94ae49a14134e7d808ae447122f6a61e2ecb3439b82206771f7d756e9b38441217abb5a9f24abf4e5881ea786ac29e05356f15a414a26f859'
-  'cb66a401478b03afd85d0bbcd5f71fccadeb1a7f42c58d5fb8d7cfa852aefdf75d30c8b9f05eef1dfaffa26076618d94791d59be3aecff9c617dc1ce76dc0062'
   'd0ff2da84fbdb513bd3ff3688292243247df7302ae34c1aea3158201034acf32aea8cf9b2df784a2f85dd8e5c3631ac8d25c99f3aa0b1a76b39882695633bd6f'
   'ad69800ee5b4c11cf349b0920aaa02e7cee9711929d980b46d8f56da801c1f7a791ed3212ad0ac0f24f7d2900c82e8040ed9fa2778a7169562fd00599ed5287c'
   '39fd54fab1ffe3d1abf61f5fa8c64f9983ab4fa527951f43dc59c96fa49007a039a3a5ff40a91e6c5a8c048f1ab47c60b292abccae4f86b5b5691e0eb25d61f5'
