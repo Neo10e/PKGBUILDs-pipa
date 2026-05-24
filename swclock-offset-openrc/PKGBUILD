@@ -2,7 +2,7 @@
 
 pkgname=swclock-offset-openrc
 pkgver=0.3.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Activate swclock-offset using openrc"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
@@ -10,7 +10,6 @@ license=('GPL-3.0-or-later')
 groups=('openrc-pipa-armtix')
 depends=('swclock-offset' 'openrc')
 _pkgname=swclock-offset
-install="$pkgname.install"
 source=(
 	"https://gitlab.postmarketos.org/postmarketOS/$_pkgname/-/archive/$pkgver/$_pkgname-$pkgver.tar.gz"
 	"0001-missing-deps.patch"
