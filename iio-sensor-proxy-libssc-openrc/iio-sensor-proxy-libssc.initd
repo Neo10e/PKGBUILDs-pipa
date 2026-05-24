@@ -4,6 +4,6 @@ supervisor=supervise-daemon
 command="/usr/lib/iio-sensor-proxy"
 
 depend() {
-	need dbus
+	need dbus localmount
 	after hexagonrpcd-adsp-rootpd hexagonrpcd-adsp-sensorspd hexagonrpcd-sdsp
 }

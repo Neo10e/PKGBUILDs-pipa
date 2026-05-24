@@ -6,7 +6,7 @@
 
 pkgname=iio-sensor-proxy-libssc-openrc
 pkgver=3.8
-pkgrel=3
+pkgrel=4
 pkgdesc='IIO accelerometer sensor to input device proxy (OpenRC init scripts)'
 arch=('any')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
@@ -14,9 +14,8 @@ license=('GPL-2.0-or-later')
 groups=('openrc-pipa-armtix')
 depends=('iio-sensor-proxy-libssc' 'openrc')
 _pkgname=iio-sensor-proxy
-install="$pkgname.install"
 source=("$_pkgname-libssc.initd")
-sha512sums=('5a4c83e4b022dca22880a13efb021742aec25b9192f6b538c31777a460044324c798faca41952be775031f7fb3e05427b8cd86dc84aefe2bdaceeadf7a2f8c8b')
+sha512sums=('f879b7381f32d373a49a6053dc5158dd6c83d25d3999b49f08b23f9b9551bf434ac99f8487fc9f60c6b59fa44d5633e8f7389d62b6916215e3baee313c5cd640')
 
 package() {
 	install -Dm755 "$srcdir"/$_pkgname-libssc.initd "$pkgdir"/etc/init.d/$_pkgname-libssc
