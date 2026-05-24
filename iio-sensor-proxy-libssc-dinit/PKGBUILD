@@ -9,7 +9,7 @@ groups=('dinit-pipa-armtix')
 depends=('iio-sensor-proxy-libssc' 'dinit')
 _pkgname=iio-sensor-proxy
 source=("$_pkgname-libssc")
-sha512sums=('1e25f99733111a4206f41561517df28ae1b2b5599f03b4bf069642841437e038a99929af5008b1b0de247e6eab89226c36c6ef8b6d04a012dd1fe43f9833e829')
+sha512sums=('a12e8f058cb9aa039e52e5c84b7c3ddd3ab42c903eb50eefac6adf4354a7c8970e956e2ca90f1001a53a175b8eeda3f80248e2f0065a7689c3fb2a9759c58c0a')
 
 package() {
 	install -Dm755 "$srcdir"/$_pkgname-libssc "$pkgdir"/etc/dinit.d/$_pkgname-libssc
