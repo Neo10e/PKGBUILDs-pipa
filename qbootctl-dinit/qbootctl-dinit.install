@@ -1,9 +1,0 @@
-#!/bin/sh
-
-post_install() {
-    dinitctl --quiet enable qbootctl
-}
-
-pre_remove() {
-    dinitctl --quiet disable qbootctl
-}
