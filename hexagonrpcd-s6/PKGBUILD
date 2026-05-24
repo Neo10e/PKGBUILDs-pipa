@@ -1,33 +1,38 @@
 pkgname="hexagonrpcd-s6"
 pkgdesc="Qualcomm HexagonFS daemon (s6 init scripts)"
 pkgver=0.4.0
-pkgrel=3
+pkgrel=4
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
 groups=('s6-pipa-armtix')
 depends=('hexagonrpcd' 's6-base')
 _pkgname=hexagonrpcd
-install="$pkgname.install"
 source=(
-    "$_pkgname-adsp-rootpd.run"
-    "$_pkgname-adsp-sensorspd.run"
-    "$_pkgname-sdsp.run"
+    "$_pkgname-adsp-rootpd__run"
+    "$_pkgname-adsp-sensorspd__run"
+    "$_pkgname-sdsp__run"
+    "$_pkgname-adsp-rootpd__type"
+    "$_pkgname-adsp-sensorspd__type"
+    "$_pkgname-sdsp__type"
 )
 sha512sums=(
-    '9cff0eab6c7bc246ff42870e98af6345824dfd3b7ac236d5a4f28e947aac01d7a74871f0293b2e18dbd237169ad95979893c96d67a8a2cd602556f6b87dc3b0d'
-    '10409d435dc4b43f19073971587f4d28ab748476482d2a759b726f390d38d1bedbed6900f7d08888b2f3f91ec9672cb365b90d6a2785c6aaceb47001cbb9261b'
-    'e8033fbde69034490faa8e6d4a3295efe52ee3451bdad3c3a99b589f9255fbf839736c22a443a2e223bb1ab5a4596083346b946d3c263dd94dea4c75da7534a6'
+    'd2225a562483d553435cbd89f9e14424cbc4edd0b8eda8dfc941de28ed79c060169da99e32653f490e6d89c2cef2f2ba3806371ec43d2d3badd62676cf716f56'
+    '0f370561d8eeab5ed7ec921705389e4c800894292142201d58c22fbada4375d68be5fa671d4b163ae688215daa1e7c30c63a71bcf1903695180641f5b73e225b'
+    '108dad01c1bd77ecf29a6b144e43a4fba452fbff0cb39250bc2d11034102650bd59ac2062b62895001d9f83dbae6eec231e704dd5934209676f8d5f7f0422b6f'
+    '5aeeee7f38761478d5f7efcbb84a6f3c04bfefdd91e240869bab8a4dc00ee05adb00c300a66e96d708e12e321be6abd8bab58eec080645ca1f343fbbb379e085'
+    '5aeeee7f38761478d5f7efcbb84a6f3c04bfefdd91e240869bab8a4dc00ee05adb00c300a66e96d708e12e321be6abd8bab58eec080645ca1f343fbbb379e085'
+    '5aeeee7f38761478d5f7efcbb84a6f3c04bfefdd91e240869bab8a4dc00ee05adb00c300a66e96d708e12e321be6abd8bab58eec080645ca1f343fbbb379e085'
 )
 
 package() {
     # Add Services for s6
-	install -Dm755 $srcdir/$_pkgname-adsp-rootpd.run "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/run"
-	install -Dm755 $srcdir/$_pkgname-adsp-sensorspd.run "$pkgdir/etc/s6/sv/$_pkgname-adsp-sensorspd/run"
-	install -Dm755 $srcdir/$_pkgname-sdsp.run "$pkgdir/etc/s6/sv/$_pkgname-sdsp/run"
+	install -Dm755 $srcdir/$_pkgname-adsp-rootpd__run "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/run"
+	install -Dm755 $srcdir/$_pkgname-adsp-sensorspd__run "$pkgdir/etc/s6/sv/$_pkgname-adsp-sensorspd/run"
+	install -Dm755 $srcdir/$_pkgname-sdsp__run "$pkgdir/etc/s6/sv/$_pkgname-sdsp/run"
 
     # Add service type
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/type"
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-adsp-sensorspd/type"
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-sdsp/type"
+    install -Dm644 $srcdir/$_pkgname-adsp-rootpd__type "$pkgdir/etc/s6/sv/$_pkgname-adsp-rootpd/type"
+    install -Dm644 $srcdir/$_pkgname-adsp-sensorspd__type "$pkgdir/etc/s6/sv/$_pkgname-adsp-sensorspd/type"
+    install -Dm644 $srcdir/$_pkgname-sdsp__type "$pkgdir/etc/s6/sv/$_pkgname-sdsp/type"
 }
