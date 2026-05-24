@@ -3,7 +3,7 @@
 
 pkgname=box64
 pkgver=0.4.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux Userspace x86_64 Emulator with a twist'
 arch=('x86_64' 'aarch64' 'riscv64' 'powerpc64le')
 url='https://github.com/ptitSeb/box64'
@@ -17,7 +17,7 @@ optdepends=(
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptitSeb/${pkgname}/archive/v${pkgver}.tar.gz"
         "box64.install")
 sha256sums=('c9d0db8a02fb9d586f3892caf83908cc92fbe3eb9a871cd868286cc932690d5e'
-            'fbaf8ba4d0e3fa45c1f9f2e715c310e735c0bfc954dccbf0f04a228dd4236421')
+            'd114bb8521ad0feebbcc1114bfe3d8f34285932ab1ac213a4f91c625f9320249')
 
 build() {
     cd ${pkgname}-${pkgver}
