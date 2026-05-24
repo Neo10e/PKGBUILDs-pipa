@@ -1,14 +1,13 @@
 pkgname=swclock-offset-runit
 pkgver=0.3.0
-pkgrel=3
-pkgdesc="Activate swclock-offset using runit"
+pkgrel=4
+pkgdesc="Activate swclock-offset using runit stage1 script"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
 license=('GPL-3.0-or-later')
 groups=('runit-pipa-armtix')
 depends=('swclock-offset' 'runit')
 _pkgname=swclock-offset
-install="$pkgname.install"
 source=(
     "$_pkgname-boot.rc.in"
     "$_pkgname-shutdown.rc.in"
@@ -28,4 +27,14 @@ package() {
 
 	install -Dm755 $srcdir/$_pkgname-shutdown.rc \
 		"$pkgdir/usr/lib/rc/sv.d/$_pkgname-shutdown"
+
+	# Assign swclock-offset services
+	install -d "$pkgdir/etc/rc/sysinit"
+	install -d "$pkgdir/etc/rc/shutdown"
+
+	ln -s $pkgdir/usr/lib/rc/sv.d/$_pkgname-boot \
+		"$pkgdir/etc/rc/sysinit/34-$_pkgname-boot"
+
+	ln -s $pkgdir/usr/lib/rc/sv.d/$_pkgname-shutdown \
+		"$pkgdir/etc/rc/shutdown/29-$_pkgname-shutdown"
 }
