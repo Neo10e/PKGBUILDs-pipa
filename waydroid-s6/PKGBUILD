@@ -1,7 +1,7 @@
 pkgname="waydroid-s6"
 pkgdesc="Waydroid Container Manager as a s6 service"
 pkgver=1.6.2
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://github.com/waydroid/waydroid"
 license=('GPL-3.0-or-later')
@@ -9,19 +9,21 @@ groups=('s6-pipa-armtix')
 depends=('waydroid' 's6')
 _pkgname=waydroid
 source=(
-	"$_pkgname-container.run"
-	"$_pkgname-container.finish"
+	"$_pkgname-container__run"
+	"$_pkgname-container__type"
+	"$_pkgname-container__finish"
 )
 sha512sums=(
 	'1b32079abf5afdccc9db4e96b62a2c582431d08d72fd9d8df0cc0c1c61f1ee9251237d9af5dfb1daef2c9e8683d7cb1f30ddaec465a5dcef42cf2fc9bc157fd2'
+	'5aeeee7f38761478d5f7efcbb84a6f3c04bfefdd91e240869bab8a4dc00ee05adb00c300a66e96d708e12e321be6abd8bab58eec080645ca1f343fbbb379e085'
 	'd8f0318f1b03756a1a04d5f7657084884d3872a0e18f4786748e8e42a3811abbe3ef6ccd0a7bdbc8bbb034d7f343b4fcce50396797df10e1292f1cfd7deb44d6'
 )
 
 package() {
 	# Install s6 service
-	install -Dm755 "$srcdir/$_pkgname-container.run" "$pkgdir/etc/s6/sv/$_pkgname-container/run"
-	install -Dm755 "$srcdir/$_pkgname-container.finish" "$pkgdir/etc/s6/sv/$_pkgname-container/finish"
+	install -Dm755 "$srcdir/$_pkgname-container__run" "$pkgdir/etc/s6/sv/$_pkgname-container/run"
+	install -Dm755 "$srcdir/$_pkgname-container__finish" "$pkgdir/etc/s6/sv/$_pkgname-container/finish"
 
     # Add service type
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-container/type"
+    install -Dm644 "$srcdir/$_pkgname-container__type" "$pkgdir/etc/s6/sv/$_pkgname-container/type"
 }
