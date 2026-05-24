@@ -1,9 +1,0 @@
-#!/bin/sh
-
-post_install() {
-    rc-update -q add qbootctl default
-}
-
-pre_remove() {
-    rc-update -q del qbootctl default
-}
