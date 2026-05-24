@@ -1,6 +1,6 @@
 pkgname=swclock-offset-s6
 pkgver=0.3.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Activate swclock-offset using skarnet's s6"
 arch=('any')
 url="https://gitlab.postmarketos.org/postmarketOS/swclock-offset"
@@ -8,39 +8,48 @@ license=('GPL-3.0-or-later')
 groups=('s6-pipa-armtix')
 depends=('swclock-offset' 's6-base')
 _pkgname=swclock-offset
-install="$pkgname.install"
 source=(
-    "$_pkgname-boot.up.in"
-    "$_pkgname-shutdown.down.in"
+    "$_pkgname-boot__up.in"
+    "$_pkgname-boot__type"
+    "$_pkgname-boot__dependencies.d__udev"
+    "$_pkgname-shutdown__up"
+    "$_pkgname-shutdown__type"
+    "$_pkgname-shutdown__down.in"
 )
 sha512sums=(
     '4f91a395a802eabfe4e03bac45546b2a9e2192cca38b092a6c980b9c1d50c9914cf01ff8462395f7ada371afd8751b99331eb10d9dcf4359631dce60ad2f1c6f'
+    '2eb66df3e1c711c79a63c1f22d1734ebdd818f21a85ca09ff9b2e693c1d9db5b45d6d75ed0a527be130f8c20b644843ec81e37180cee69a79d29626c66a6de5d'
+    'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e'
+    '58d5b1a5876d166bdf2db43a02191cfc6e0da4b4a5600dc662b58b17a422e18a60668f65ccc79e837d7fde5d6d6530cfcbdce3471da0bd34d89246c95546a3f1'
+    '2eb66df3e1c711c79a63c1f22d1734ebdd818f21a85ca09ff9b2e693c1d9db5b45d6d75ed0a527be130f8c20b644843ec81e37180cee69a79d29626c66a6de5d'
     'e474b744a372b803cf313e85c2a06cd1daa0c67cc63c61802869a259e8a62cfe2f70cd2937d29290a0884f2719daf9970433d1f60b66e34db4b93c92d5ae2d9b'
 )
 
 package() {
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot.up.in > $srcdir/$_pkgname-boot.up
-	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown.down.in > $srcdir/$_pkgname-shutdown.down
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-boot__up.in > $srcdir/$_pkgname-boot__up
+	sed -e 's+SWCLOCK_PATH+/usr/bin+g' $srcdir/$_pkgname-shutdown__down.in > $srcdir/$_pkgname-shutdown__down
 
     # Install s6 service
-	install -Dm755 $srcdir/$_pkgname-boot.up \
+	install -Dm755 $srcdir/$_pkgname-boot__up \
 		"$pkgdir/etc/s6/sv/$_pkgname-boot/up"
 
-	install -Dm755 $srcdir/$_pkgname-shutdown.down \
+	install -Dm755 $srcdir/$_pkgname-shutdown__down \
 		"$pkgdir/etc/s6/sv/$_pkgname-shutdown/down"
 
     # Add service type
-    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname-boot/type"
-    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
+    install -Dm644 $srcdir/$_pkgname-boot__type \
+        "$pkgdir/etc/s6/sv/$_pkgname-boot/type"
+
+    install -Dm644 $srcdir/$_pkgname-shutdown__type \
+        "$pkgdir/etc/s6/sv/$_pkgname-shutdown/type"
 
     # Add dependency
     install -d "$pkgdir/etc/s6/sv/$_pkgname-boot/dependencies.d"
-    touch udev "$pkgdir/etc/s6/sv/$_pkgname-boot/dependencies.d/udev"
+    install -Dm644 $srcdir/$_pkgname-boot__dependencies.d__udev \
+        "$pkgdir/etc/s6/sv/$_pkgname-boot/dependencies.d/udev"
 
     # Trick to make reload database possible
-    cat > "$pkgdir/etc/s6/sv/$_pkgname-shutdown/up" <<EOF
-#!/bin/execlineb -P
-exit 0
-EOF
+    install -Dm755 $srcdir/$_pkgname-shutdown__up \
+		"$pkgdir/etc/s6/sv/$_pkgname-shutdown/up"
 
 }
