@@ -4,14 +4,13 @@
 pkgname="hexagonrpcd-openrc"
 pkgdesc="Qualcomm HexagonFS daemon (OpenRC init scripts)"
 pkgver=0.4.0
-pkgrel=2
+pkgrel=3
 arch=('any')
 url="https://gitlab.com/sdm845-mainline/hexagonrpc/"
 license=(GPL-3.0-or-later)
 groups=('openrc-pipa-armtix')
 depends=('hexagonrpcd' 'openrc')
 _pkgname=hexagonrpcd
-install="$pkgname.install"
 source=(
     "$_pkgname-adsp-rootpd.initd"
     "$_pkgname-adsp-sensorspd.initd"
