@@ -1,6 +1,6 @@
 pkgname=device-xiaomi-pipa-s6
 pkgdesc="Package containing skarnet's s6 configurations for Xiaomi Pad 6"
-pkgver=3
+pkgver=4
 pkgrel=1
 url="https://postmarketos.org"
 license=('MIT')
@@ -20,7 +20,7 @@ source=(
 )
 sha512sums=(
 	'7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144'
-	'e8a85055447be798067582c19f44e9ffe0a0fc8f48863b54ebf32ca6dac57dbf5e33f41b1102c8e584cfdead8c0d0c2fe4d3f94483c146bfb655d8c52675605e'
+	'a4649bcf654de34708afa36d8f1c3d9b7b319ab050aac7bcbeb3178084fc175bd43b16f3e8c6cc085f0077eee40cd855818a903ca7a75f7c77f8ff6b407f1801'
 )
 
 package() {
