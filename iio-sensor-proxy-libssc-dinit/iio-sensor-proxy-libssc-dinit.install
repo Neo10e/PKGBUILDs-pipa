@@ -1,9 +1,0 @@
-#!/bin/sh
-
-post_install() {
-    dinitctl --quiet enable iio-sensor-proxy-libssc
-}
-
-pre_remove() {
-    dinitctl --quiet disable iio-sensor-proxy-libssc
-}

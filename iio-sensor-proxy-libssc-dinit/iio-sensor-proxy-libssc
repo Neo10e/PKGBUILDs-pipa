@@ -2,6 +2,7 @@ type    = process
 command = /usr/lib/iio-sensor-proxy
 restart = true
 depends-on: dbus
+depends-on: local.target
 after: hexagonrpcd-adsp-rootpd
 after: hexagonrpcd-adsp-sensorspd
 after: hexagonrpcd-sdsp
