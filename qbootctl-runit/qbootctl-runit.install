@@ -1,9 +1,0 @@
-#!/bin/sh
-
-post_install() {
-    ln -s /etc/runit/sv/qbootctl /run/runit/service
-}
-
-pre_remove() {
-    unlink /run/runit/service/qbootctl
-}
