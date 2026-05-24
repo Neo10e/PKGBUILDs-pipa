@@ -1,9 +1,9 @@
 # Contributor: linuxer <https://gitea.artixlinux.org/linuxer>
 
 pkgname="zramen-s6"
-pkgdesc="S6 script for zramen"
-pkgver=20260416
-pkgrel=2
+pkgdesc="s6 script for zramen"
+pkgver=20260524
+pkgrel=3
 arch=('any')
 url="https://gitea.artixlinux.org/linuxer"
 license=('Unlicense')
@@ -11,24 +11,26 @@ groups=('s6-pipa-armtix')
 depends=('zramen' 's6-base')
 _pkgname=zramen
 source=(
-    "$_pkgname.up"
-    "$_pkgname.down"
+    "$_pkgname"__up
+    "$_pkgname"__type
+    "$_pkgname"__down
     "$_pkgname.conf"
 )
 sha256sums=(
     '2fc229ed985c12b930aa620a83f43d532c94cf718bdc48a70928c4775c87c3ac'
+    'aab38fd7998987a22d44fda7822afcfa69d039d3ba02b1f707f064df64352217'
     '6027845d8c7f80786fa22bc124823b31af94d65c161e7652b4ea2bd9e8791c63'
     '01066e894f524b538f5bbe0697a8280637a002a63362d355207697299419a246'
 )
 
 package() {
     # Install s6 service
-    install -Dm755 "$srcdir/$_pkgname.up" "$pkgdir/etc/s6/sv/$_pkgname/up"
-    install -Dm755 "$srcdir/$_pkgname.down" "$pkgdir/etc/s6/sv/$_pkgname/down"
+    install -Dm755 "$srcdir/$_pkgname"__up "$pkgdir/etc/s6/sv/$_pkgname/up"
+    install -Dm755 "$srcdir/$_pkgname"__down "$pkgdir/etc/s6/sv/$_pkgname/down"
+
+    # Add service type
+    install -Dm644 "$srcdir/$_pkgname"__type "$pkgdir/etc/s6/sv/$_pkgname/type"
 
     # Add zramen related config
     install -Dm644 "$srcdir/$_pkgname.conf" "$pkgdir/etc/s6/config/$_pkgname.conf"
-
-    # Add service type
-    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname/type"
 }
