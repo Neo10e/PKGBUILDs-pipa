@@ -1,4 +1,4 @@
-#!/usr/bin/execlineb -P
+#!/bin/execlineb -P
 foreground { /bin/sleep 2 }
 redirfd -w 2 /dev/null
 exec /usr/lib/iio-sensor-proxy

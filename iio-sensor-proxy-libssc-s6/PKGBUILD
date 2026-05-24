@@ -1,26 +1,37 @@
 pkgname=iio-sensor-proxy-libssc-s6
 pkgver=3.8
-pkgrel=3
-pkgdesc='IIO accelerometer sensor to input device proxy (Runit init scripts)'
+pkgrel=4
+pkgdesc='IIO accelerometer sensor to input device proxy (s6 init scripts)'
 arch=('any')
 url='https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/'
 license=('GPL-2.0-or-later')
 groups=('s6-pipa-armtix')
 depends=('iio-sensor-proxy-libssc' 's6-base')
 _pkgname=iio-sensor-proxy
-install="$pkgname.install"
-source=("$_pkgname-libssc.run")
-sha512sums=('859b7410698ad30a31704e1df6cdb36ca6974f46cd95d6bb0809847cd6f4b193de431d1397f3c6df5f0172fab7a61f489c56ee93ebf429b785790f43f874ca76')
+source=(
+    "$_pkgname-libssc__run"
+    "$_pkgname-libssc__type"
+    "$_pkgname-libssc__dependencies.d__dbus"
+    "$_pkgname-libssc__dependencies.d__hexagonrpcd-sdsp"
+)
+sha512sums=(
+    '3221fcc282b3ed2d3e53e4f6d34c90438bc1f4c58ae93bf368e4af751bae8ee56efdb52735a9a3dee73dd8a8415b6f1abcb1acd6a5f17bd5ec43f126ee7e1bcc'
+    '5aeeee7f38761478d5f7efcbb84a6f3c04bfefdd91e240869bab8a4dc00ee05adb00c300a66e96d708e12e321be6abd8bab58eec080645ca1f343fbbb379e085'
+    'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e'
+    'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e'
+)
 
 package() {
     # Install s6 service
-	install -Dm755 "$srcdir"/$_pkgname-libssc.run "$pkgdir/etc/s6/sv/$_pkgname-libssc/run"
+	install -Dm755 "$srcdir"/$_pkgname-libssc__run "$pkgdir/etc/s6/sv/$_pkgname-libssc/run"
 
     # Add service type
-    echo longrun > "$pkgdir/etc/s6/sv/$_pkgname-libssc/type"
+    install -Dm644 "$srcdir"/$_pkgname-libssc__type "$pkgdir/etc/s6/sv/$_pkgname-libssc/type"
 
     # Add dependency
-    install -d "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d"
-    touch dbus "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d/dbus"
-    touch hexagonrpcd-sdsp "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d/hexagonrpcd-sdsp"
+    install -Dm644 "$srcdir"/$_pkgname-libssc__dependencies.d__dbus \
+        "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d/dbus"
+
+    install -Dm644 "$srcdir"/$_pkgname-libssc__dependencies.d__hexagonrpcd-sdsp \
+        "$pkgdir/etc/s6/sv/$_pkgname-libssc/dependencies.d/hexagonrpcd-sdsp"
 }
