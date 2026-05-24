@@ -1,21 +1,26 @@
 pkgname="qbootctl-s6"
 pkgdesc="Mark current boot as successful in Android A/B interface"
 pkgver=0.2.2
-pkgrel=2
+pkgrel=3
 arch=('any')
 url="https://github.com/linux-msm/qbootctl"
 license=('GPL-3.0-or-later')
 groups=('s6-pipa-armtix')
 depends=('qbootctl' 's6-base')
 _pkgname=qbootctl
-install="$pkgname.install"
-source=("$_pkgname.up")
-sha512sums=('704c85c52e4e069458b2d16714a026c4a146eeaa3ceb8dfc88e4fa787d8868d480e3fb245747d1a4ea04901eabd6e6fe2a1bd7273c212ab971820a84b86267d0')
+source=(
+    "$_pkgname"__up
+    "$_pkgname"__type
+)
+sha512sums=(
+    '704c85c52e4e069458b2d16714a026c4a146eeaa3ceb8dfc88e4fa787d8868d480e3fb245747d1a4ea04901eabd6e6fe2a1bd7273c212ab971820a84b86267d0'
+    '2eb66df3e1c711c79a63c1f22d1734ebdd818f21a85ca09ff9b2e693c1d9db5b45d6d75ed0a527be130f8c20b644843ec81e37180cee69a79d29626c66a6de5d'
+)
 
 package() {
 	# Install s6 service
-	install -Dm755 "$srcdir/$_pkgname.up" "$pkgdir/etc/s6/sv/$_pkgname/up"
+	install -Dm755 "$srcdir"/"$_pkgname"__up "$pkgdir/etc/s6/sv/$_pkgname/up"
 
     # Add service type
-    echo oneshot > "$pkgdir/etc/s6/sv/$_pkgname/type"
+    install -Dm644 "$srcdir"/"$_pkgname"__type "$pkgdir/etc/s6/sv/$_pkgname/type"
 }
