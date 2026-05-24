@@ -1,7 +1,7 @@
 pkgname=device-xiaomi-pipa
 pkgdesc="Package containing configurations for Xiaomi Pad 6"
 pkgver=4
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license=('MIT')
 arch=('aarch64')
@@ -37,7 +37,7 @@ package() {
 		
 	# Install ALSA UCM configuration for Xiaomi Pad 6
 	# /usr/share/alsa/ucm2/conf.d/sm8250/Xiaomi Pad 6.conf  
-	mkdir -p "${pkgdir} /usr/share/alsa/ucm2/conf.d/sm8250/"
+	mkdir -p "${pkgdir}/usr/share/alsa/ucm2/conf.d/sm8250/"
 	install -Dm644 "${srcdir}/xiaomi-pipa.conf" "${pkgdir}/usr/share/alsa/ucm2/conf.d/sm8250/Xiaomi Pad 6.conf"
 
 	# /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi_pipa.conf
