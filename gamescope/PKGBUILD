@@ -1,3 +1,4 @@
+# PKGBUILD based on the official Arch gamescope PKGBUILD
 # Maintainer - Sid Pranjale <sidpranjale127@protonmail.com>
 
 # Maintainer: Sefa Eyeoglu <contact@scrumplex.net>
@@ -8,49 +9,48 @@
 # Contributor: PedroHLC <root@pedrohlc.com>
 
 pkgname=gamescope
-pkgver=3.16.22.r1.g36d9fa6a
-pkgrel=2
+pkgver=3.16.24.r20.ga563226d
+pkgrel=3
 pkgdesc='SteamOS session compositing window manager'
 arch=('x86_64' 'aarch64')
 url=https://github.com/ValveSoftware/gamescope
-license=(
-  BSD-2-Clause
-)
+license=(BSD-2-Clause)
 depends=(
-  gcc-libs
-  glibc
-  glm
-  hwdata
-  lcms2
   libavif
   libcap.so
   libdecor
   libdrm
+  libei
   libinput
   libpipewire-0.3.so
   libx11
   libxcb
   libxcomposite
+  libxcursor
   libxdamage
   libxext
   libxfixes
-  libxkbcommon
+  libxi
+  libxkbcommon.so
   libxmu
   libxrender
   libxres
   libxtst
   libxxf86vm
+  lcms2
   luajit
+  pixman
   seatd
   sdl2
   vulkan-icd-loader
   wayland
-  xcb-util-wm
   xcb-util-errors
+  xcb-util-wm
   xorg-server-xwayland
 )
 makedepends=(
   benchmark
+  catch2
   cmake
   git
   glslang
@@ -60,25 +60,31 @@ makedepends=(
   wayland-protocols
 )
 source=(
-  git+https://github.com/ValveSoftware/gamescope.git
-  git+https://gitlab.freedesktop.org/emersion/libdisplay-info.git
-  git+https://gitlab.freedesktop.org/emersion/libliftoff.git
-  git+https://github.com/ValveSoftware/openvr.git
-  git+https://github.com/Joshua-Ashton/reshade.git
-  git+https://github.com/KhronosGroup/SPIRV-Headers.git
-  git+https://github.com/Joshua-Ashton/vkroots.git
-  git+https://github.com/Joshua-Ashton/wlroots.git
-  https://github.com/ValveSoftware/gamescope/pull/1867.diff
+  'git+https://github.com/ValveSoftware/gamescope.git'
+  'git+https://gitlab.freedesktop.org/wlroots/wlroots.git'
+  'git+https://gitlab.freedesktop.org/emersion/libliftoff.git'
+  'git+https://github.com/Joshua-Ashton/vkroots.git'
+  'git+https://gitlab.freedesktop.org/emersion/libdisplay-info.git'
+  'git+https://github.com/ValveSoftware/openvr.git'
+  'git+https://github.com/Joshua-Ashton/reshade.git'
+  'git+https://github.com/Joshua-Ashton/GamescopeShaders.git#tag=v0.1'
+  'git+https://github.com/KhronosGroup/SPIRV-Headers.git'
 )
-b2sums=('SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP'
-        'SKIP')
+
+b2sums=(
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+)
+
+provides=("$pkgname")
+conflicts=("$pkgname")
 
 prepare() {
   cd "$pkgname"
@@ -125,6 +131,7 @@ pkgver() {
 
 build() {
   export CMAKE_POLICY_VERSION_MINIMUM=3.5
+
   cd "$pkgname"
   artix-meson . build \
     -Dforce_fallback_for=stb,wlroots,vkroots,libliftoff,glm,libdisplay-info \
@@ -136,7 +143,7 @@ package() {
   cd "$srcdir/$pkgname"
 
   install -d "$pkgdir"/usr/share/gamescope/reshade
-  cp -r "$srcdir"/reshade/* "$pkgdir"/usr/share/gamescope/reshade/
+  cp -r "$srcdir"/GamescopeShaders/* "$pkgdir"/usr/share/gamescope/reshade/
   chmod -R 755 "$pkgdir"/usr/share/gamescope
 
   meson install -C build --skip-subprojects --destdir="${pkgdir}"
