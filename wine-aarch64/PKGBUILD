@@ -1,6 +1,6 @@
 pkgname=wine-aarch64
-pkgver=hangover.11.4.r0.g04d384823c7
-pkgrel=2
+pkgver=hangover.11.9.r0.g2e8ad15d5b7
+pkgrel=3
 source=(
   "git+https://github.com/AndreRH/wine.git"
   30-win32-aliases.conf
@@ -82,7 +82,7 @@ prepare() {
 #   # apply wine-staging patchset
 #   ../wine-staging/staging/patchinstall.py --backend=git-apply --all \
 #     -W server-Signal_Thread
-# 
+#
 #   ./dlls/winevulkan/make_vulkan
 #   ./tools/make_requests
 #   ./tools/make_specfiles
@@ -109,7 +109,7 @@ build() {
   export CROSSCFLAGS="-O2 -fwrapv -pipe"
   export CROSSCXXFLAGS="$CROSSCFLAGS"
   export CROSSLDFLAGS="-Wl,/FILEALIGN:4096,/OPT:REF,/OPT:ICF"
-  
+
   cd "$pkgname-build"
   ../wine/configure \
     --disable-tests \
@@ -130,7 +130,7 @@ build() {
     --without-pcap \
     --with-mingw=clang \
 	--enable-archs=arm64ec,aarch64,x86_64,i386
-	
+
   make
 }
 
