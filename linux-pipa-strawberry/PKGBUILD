@@ -1,11 +1,11 @@
 buildarch=8
 
 pkgbase=linux-pipa-strawberry
-_branch="pipa/7.1.2"
-_srcname="linux-pipa-7.1.2"
+_branch="pipa/7.1.7"
+_srcname="linux-pipa-7.1.7"
 _kernelname=${pkgbase#linux}
-_desc="Kernel for Xiaomi Pad 6 (pipa) built from rmux's pipa/7.1.2 branch"
-pkgver=7.1.2
+_desc="Kernel for Xiaomi Pad 6 (pipa) built from rmux's pipa/7.1.7 branch"
+pkgver=7.1.7
 pkgrel=1
 arch=('aarch64')
 url="https://github.com/rmuxnet/linux"
@@ -18,7 +18,7 @@ source=("$url/archive/refs/heads/$_branch.tar.gz"
         'linux-pipa.preset'
         'cmdline.txt')
 sha512sums=('SKIP'
-         '3e5d2a2a8df8110c66428049c2de01ec8cd574928814d3f52f3b75aa6cb59d919b32143de988e8a5c246c0918e1279061aafbbc4ae2cebb3609d3e6091bda4e0'
+         '6af41b947ef1fc3caab153d0324fca58dbd7a35e9876629aeca347ce717d80babbecb964f8cc2afc9aff8151246a094f6dcee438139e9cf97e8d573cd0346726'
          '78e5f43b582438e1e1c30948a099f751f91c756d0b35414f734587680e09f7c1b6ff5c137b2027526818f6a26278981d77d2ed45f9a4f198a14d5e68f6beab2d'
          '6e1d9dffd460e4f4bffd00673045e32c01d47529de0da8246ee0eea60e1bd60f9fcccf12a69e75dd96195b91c19c4834a98052b8720b84b8e7bbd3b1f27d5b84')
 
