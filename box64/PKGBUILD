@@ -2,8 +2,8 @@
 # Contributor: Dan Johansen <strit@manjaro.org>
 
 pkgname=box64
-pkgver=0.4.2
-pkgrel=2
+pkgver=0.4.4
+pkgrel=1
 pkgdesc='Linux Userspace x86_64 Emulator with a twist'
 arch=('x86_64' 'aarch64' 'riscv64' 'powerpc64le')
 url='https://github.com/ptitSeb/box64'
@@ -13,10 +13,11 @@ depends=('gcc-libs')
 makedepends=('git' 'cmake' 'python' 'llvm-mingw-w64-toolchain')
 optdepends=(
 'wine: for running x86 windows binaries'
+'gl4es: OpenGL 2 for GLES 2 devices'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ptitSeb/${pkgname}/archive/v${pkgver}.tar.gz"
         "box64.install")
-sha256sums=('c9d0db8a02fb9d586f3892caf83908cc92fbe3eb9a871cd868286cc932690d5e'
+sha256sums=('99c6de4f509e46ab1de15df740d0e0ea338a7790efa3f67510dfbb975cc24029'
             'd114bb8521ad0feebbcc1114bfe3d8f34285932ab1ac213a4f91c625f9320249')
 
 build() {
@@ -24,9 +25,9 @@ build() {
 
 	# add llvm mingw bin to path
     export PATH="/opt/llvm-mingw/bin:/opt/llvm-mingw/llvm-mingw-ucrt/bin:$PATH"
-    
+
 	# we know this will be running on a pipa
-	march="armv8.2-a+crypto+crc" 
+	march="armv8.2-a+crypto+crc"
 	mtune="cortex-a77"
 
 	# override flags to prevent makepkg.conf from interfering
@@ -39,16 +40,16 @@ build() {
     if [[ $CARCH == "aarch64" ]]; then
         name="$(LC_ALL=C lscpu | grep Model)"
         exargs=""
-        if [ -n "$(echo $name | grep RK3588)" ]; then
-              exargs="-DRK3588=1"
+        if [ -n "$(echo $name | grep RK3588)"  -o `lspci | grep RK3588 | wc -l` -gt 0 ]; then
+            exargs="-DRK3588=ON"
         elif [ -n "$(echo $name | grep RK3399)" ]; then
-              exargs="-DRK3399=1"
+              exargs="-DRK3399=ON"
         elif [ -n "$(echo $name | grep 'Cortex-A53')" ]; then
-              exargs="-DRPI3ARM64=1"
+              exargs="-DRPI3ARM64=ON"
         elif [ -n "$(echo $name | grep 'Cortex-A72')" ]; then
-              exargs="-DRPI4ARM64=1"
+              exargs="-DRPI4ARM64=ON"
         elif [ -n "$(echo $name | grep 'Cortex-A76')" ]; then
-              exargs="-DRPI5ARM64=1"
+              exargs="-DRPI5ARM64=ON"
         fi
         cmake -B build -S . \
               $exargs \
@@ -99,7 +100,7 @@ package() {
     fi
 
 	install -Dm755 ./wowbox64-prefix/src/wowbox64-build/wowbox64.dll -t "${pkgdir}/usr/lib/wine/aarch64-windows/"
-	
+
     install -Dm644 ../LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 
     # Install documentation
