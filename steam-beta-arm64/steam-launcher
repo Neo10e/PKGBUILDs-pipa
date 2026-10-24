@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-CDN_BASE_URL=https://steamcdn-a.akamaihd.net/client
+CDN_BASE_URL=https://client-update.steamstatic.com
 MANIFEST=steam_client_publicbeta_linuxarm64
 BINSZIP=bins_linuxarm64_linuxarm64.zip
 STEAMDIR="$HOME/.local/share/Steam"
@@ -35,7 +35,7 @@ if [[ ! -x "$STEAM_BIN" ]]; then
     curl -# -L -o "$MANIFEST" "${CDN_BASE_URL}/${MANIFEST}" || error "Failed to download the manifest"
 
     log Parsing client base from manifest
-    bins_linuxarm64_linuxarm64="$(grep "$MANIFEST" -e 'file.*bins_linuxarm64_linuxarm64' | sed 's/^[[:space:]]*"file"*[[:space:]]*"//;s/"[[:space:]]*$//')"
+    bins_linuxarm64_linuxarm64="$(grep -E '"file"\s+"bins_linuxarm64_linuxarm64\.zip' "$MANIFEST" | cut -d '"' -f4)"
 
 
     log Downloading client base
@@ -50,20 +50,16 @@ if [[ ! -x "$STEAM_BIN" ]]; then
 
     log Satisfy conditions for running steamrt client
     touch "$STEAMDIR/.steam-enable-steamrt64-client"
-    chmod +x "$STEAMDIR/steamrtarm64/steam"
-    chmod +x "$STEAMDIR/steamrtarm64/steamwebhelper" 2>/dev/null || true
-    chmod +x "$STEAMDIR/steamrtarm64/steamwebhelper.sh" 2>/dev/null || true
-    chmod +x "$STEAMDIR/steamrtarm64/gldriverquery" 2>/dev/null || true
-    chmod +x "$STEAMDIR/steamrtarm64/vulkandriverquery" 2>/dev/null || true
-    chmod +x "$STEAMDIR/steamrtarm64/steamsysinfo" 2>/dev/null || true
+    chmod -R u+rwx "$STEAMDIR/steamrtarm64/"
 
     log Preparing environment
     mkdir -p "$HOME/.steam"
     ln -sfn "$STEAMDIR" "$HOME/.steam/steam"
+    ln -sfn "$STEAMDIR" "$HOME/.steam/root"
     ln -sfn "$STEAMDIR/linuxarm64" "$HOME/.steam/sdkarm64"
     ln -sfn "$STEAMDIR/linux64" "$HOME/.steam/sdk64"
     ln -sfn "$STEAMDIR/linux32" "$HOME/.steam/sdk32"
-    
+
     log Ensure that the arm64 version of the steamrt based steam binary is used
     ln -sfn "$STEAMDIR/steamrtarm64" "$STEAMDIR/steamrt64"
 
@@ -71,6 +67,25 @@ if [[ ! -x "$STEAM_BIN" ]]; then
     set +e
     "$STEAM_BIN" >/dev/null 2>&1
     set -e
+
+    log Installing desktop icon entry
+    mkdir -p ~/.local/share/icons/hicolor/scalable/apps
+    curl https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg -o "$HOME/.local/share/icons/hicolor/scalable/apps/steam.svg"
+
+    for size in 32 48 64 96 128 256 512; do
+      mkdir -p "$HOME/.local/share/icons/hicolor/${size}x${size}/apps"
+      rsvg-convert -w "$size" -h "$size" "$HOME/.local/share/icons/hicolor/scalable/apps/steam.svg" -o "$HOME/.local/share/icons/hicolor/${size}x${size}/apps/steam.png"
+    done
+
+    cat > "$HOME/.local/share/applications/steam.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Steam (arm64)
+Exec=env LD_LIBRARY_PATH="$STEAMDIR/steamrtarm64/:$LD_LIBRARY_PATH" "$STEAM_BIN" -noverifyfiles
+Icon=steam
+Terminal=false
+Categories=Game;
+EOF
 
     log Cleaning
     rm -f "$MANIFEST"
