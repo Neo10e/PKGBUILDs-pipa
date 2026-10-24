@@ -1,0 +1,5 @@
+--- a/arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dts
++++ b/arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dts
+@@ -312,1 +312,1 @@
+-	cpu7_opp21: opp-3187200000 {
++	opp-3187200000 {
