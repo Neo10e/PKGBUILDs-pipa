@@ -1,6 +1,6 @@
 pkgname=wine-aarch64
-pkgver=hangover.11.9.r0.g2e8ad15d5b7
-pkgrel=3
+pkgver=11.9.r1530.g3ea3a14941b
+pkgrel=1
 source=(
   "git+https://github.com/AndreRH/wine.git"
   30-win32-aliases.conf
@@ -24,7 +24,12 @@ depends=(
   freetype2
   gcc-libs
   gettext
+  glib2
+  glibc
+  libunwind
+  libx11
   libxcursor
+  libxext
   libxkbcommon
   libxi
   libxrandr
@@ -32,6 +37,7 @@ depends=(
   ffmpeg
   unixodbc
 )
+
 makedepends=(
   git
   alsa-lib
@@ -42,12 +48,14 @@ makedepends=(
   mesa
   opencl-headers
   opencl-icd-loader
+  perl
   sdl2
   vulkan-headers
   vulkan-icd-loader
   llvm-mingw-w64-toolchain
   "linux-api-headers>=6.14"
 )
+
 optdepends=(
   alsa-lib
   alsa-plugins
@@ -144,15 +152,19 @@ package() {
   ln -sf /usr/bin/wine "$pkgdir"/usr/bin/wine64
 
   # Strip Windows binaries
-  llvm-strip --strip-unneeded "$pkgdir"/usr/lib/wine/aarch64-windows/*.{dll,exe}
-  llvm-strip --strip-unneeded "$pkgdir"/usr/lib/wine/i386-windows/*.{dll,exe}
-  llvm-strip --strip-unneeded "$pkgdir"/usr/lib/wine/x86_64-windows/*.{dll,exe}
+  for dir in "$pkgdir"/usr/lib/wine/*-windows; do
+    [[ -d "$dir" ]] || continue
+    find "$dir" -maxdepth 1 -type f \( -name '*.dll' -o -name '*.exe' \) \
+      -exec llvm-strip --strip-unneeded {} +
+  done
 
   # Font aliasing settings for Win32 applications
-  install -d "$pkgdir"/usr/share/fontconfig/conf.{avail,default}
-  install -m644 "$srcdir/30-win32-aliases.conf" "$pkgdir/usr/share/fontconfig/conf.avail"
+  install -d -m755 "$pkgdir"/usr/share/fontconfig/conf.{avail,default}
+  install -D -m644 "$srcdir/30-win32-aliases.conf" "$pkgdir/usr/share/fontconfig/conf.avail"
   ln -s ../conf.avail/30-win32-aliases.conf "$pkgdir/usr/share/fontconfig/conf.default/30-win32-aliases.conf"
-  install -Dm 644 "$srcdir/wine-binfmt.conf" "$pkgdir/usr/lib/binfmt.d/wine.conf"
+
+  # Wine binfmt
+  install -Dm644 "$srcdir/wine-binfmt.conf" "$pkgdir/usr/lib/binfmt.d/wine.conf"
 
   # NTSync additions
   echo "ntsync" | install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/wine-pure.conf"
