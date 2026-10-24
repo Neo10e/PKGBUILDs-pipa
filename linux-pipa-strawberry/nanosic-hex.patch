@@ -1,0 +1,5 @@
+--- a/drivers/input/keyboard/nanosic_803.c
++++ b/drivers/input/keyboard/nanosic_803.c
+@@ -25,1 +25,2 @@
+ #include <linux/ctype.h>
++#include <linux/hex.h>

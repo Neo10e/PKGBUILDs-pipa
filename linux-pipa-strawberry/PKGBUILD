@@ -6,7 +6,7 @@ _srcname="linux-sm8250-pipa-7.1.7-Stable"
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Xiaomi Pad 6 (pipa) built from rmux's pipa/7.1.7-Stable branch"
 pkgver=7.1.7
-pkgrel=2
+pkgrel=3
 arch=('aarch64')
 url="https://github.com/rmuxnet/linux-sm8250"
 license=('GPL2')
@@ -16,15 +16,18 @@ _config="config-qcom-sm8250-pipa.aarch64"
 source=("$url/archive/refs/heads/$_branch.tar.gz"
         'config-qcom-sm8250-pipa.aarch64'
         'linux-pipa.preset'
-        'cmdline.txt')
+        'cmdline.txt'
+        'nanosic-hex.patch')
 sha512sums=('SKIP'
          '097acd61b46588e7a9a500a5e06c20d7eae0b3657ff49700293518fad1d4b4568c04c9603140c6379ed9f4a5f7a8a8f399b8929cbeeed74ebcfc11f8fab87e81'
          '78e5f43b582438e1e1c30948a099f751f91c756d0b35414f734587680e09f7c1b6ff5c137b2027526818f6a26278981d77d2ed45f9a4f198a14d5e68f6beab2d'
-         '6e1d9dffd460e4f4bffd00673045e32c01d47529de0da8246ee0eea60e1bd60f9fcccf12a69e75dd96195b91c19c4834a98052b8720b84b8e7bbd3b1f27d5b84')
+         '6e1d9dffd460e4f4bffd00673045e32c01d47529de0da8246ee0eea60e1bd60f9fcccf12a69e75dd96195b91c19c4834a98052b8720b84b8e7bbd3b1f27d5b84'
+         '06a9f70c84e4fae0bc0a96caa89cc52c0c89ee7eca052cb8b4ff33a7c1e088f8135dbb2106de4406bd13a6b465b9c1fd84b01764365ea7ca8d278781469a5775')
 
 prepare() {
   cd $_srcname
 
+  patch -Np1 -i "${srcdir}/nanosic-hex.patch"
   echo "Setting version..."
   echo "-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
