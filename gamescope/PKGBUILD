@@ -1,21 +1,25 @@
-# PKGBUILD based on the official Arch gamescope PKGBUILD
-# Maintainer - Sid Pranjale <sidpranjale127@protonmail.com>
-
-# Maintainer: Sefa Eyeoglu <contact@scrumplex.net>
-# Maintainer: Bouke Sybren Haarsma <boukehaarsma23 at gmail dot com>
 # Maintainer: Maxime Gauduin <alucryd@archlinux.org>
 # Maintainer: Giancarlo Razzolini <grazzolini@archlinux.org>
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
 # Contributor: Samuel "scrufulufugus" Monson <smonson@irbash.net>
 # Contributor: PedroHLC <root@pedrohlc.com>
 
 pkgname=gamescope
-pkgver=3.16.24.r20.ga563226d
-pkgrel=3
+pkgver=3.17.0
+pkgrel=1
 pkgdesc='SteamOS session compositing window manager'
 arch=('x86_64' 'aarch64')
 url=https://github.com/ValveSoftware/gamescope
-license=(BSD-2-Clause)
+license=(
+  BSD-2-Clause
+  BSD-3-Clause
+  LicenseRef-Reshade
+)
 depends=(
+  glibc
+  libstdc++
+  libgcc
+  lcms2
   libavif
   libcap.so
   libdecor
@@ -37,11 +41,11 @@ depends=(
   libxres
   libxtst
   libxxf86vm
-  lcms2
   luajit
   pixman
-  seatd
   sdl2
+  seatd
+  libudev
   vulkan-icd-loader
   wayland
   xcb-util-errors
@@ -50,7 +54,6 @@ depends=(
 )
 makedepends=(
   benchmark
-  catch2
   cmake
   git
   glslang
@@ -58,97 +61,50 @@ makedepends=(
   ninja
   vulkan-headers
   wayland-protocols
+  catch2
 )
 source=(
-  'git+https://github.com/ValveSoftware/gamescope.git'
-  'git+https://gitlab.freedesktop.org/wlroots/wlroots.git'
-  'git+https://gitlab.freedesktop.org/emersion/libliftoff.git'
-  'git+https://github.com/Joshua-Ashton/vkroots.git'
-  'git+https://gitlab.freedesktop.org/emersion/libdisplay-info.git'
-  'git+https://github.com/ValveSoftware/openvr.git'
-  'git+https://github.com/Joshua-Ashton/reshade.git'
-  'git+https://github.com/Joshua-Ashton/GamescopeShaders.git#tag=v0.1'
-  'git+https://github.com/KhronosGroup/SPIRV-Headers.git'
+  git+https://github.com/ValveSoftware/gamescope.git#commit=${pkgver}
+  git+https://gitlab.freedesktop.org/emersion/libdisplay-info.git
+  git+https://gitlab.freedesktop.org/emersion/libliftoff.git
+  git+https://github.com/ValveSoftware/openvr.git
+  git+https://github.com/Joshua-Ashton/reshade.git
+  git+https://github.com/KhronosGroup/SPIRV-Headers.git
+  git+https://github.com/Joshua-Ashton/vkroots.git
+  git+https://gitlab.freedesktop.org/wlroots/wlroots.git
 )
-
-b2sums=(
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
-)
-
-provides=("$pkgname")
-conflicts=("$pkgname")
+b2sums=('e5f8ca675d1c0fb5f60cf864d4511db82ca1103a3ed9a51b8ea26bcf07055f04ad22ff03d0a73d75cbc76f15198ba19d8c0185e676aa27fa8b3dfba576ae0278'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP')
 
 prepare() {
-  cd "$pkgname"
-
-  # Add custom patches if needed
-  for src in "${source[@]}"; do
-    src="${src%%::*}"
-    src="${src##*/}"
-    [[ $src = *.patch ]] || continue
-    echo "Applying patch $src..."
-    git apply -v "../$src"
-  done
+  cd gamescope
 
   meson subprojects download
 
-  git submodule init subprojects/wlroots
-  git config submodule.subprojects/wlroots.url ../wlroots
-
-  git submodule init subprojects/libliftoff
-  git config submodule.subprojects/libliftoff.url ../libliftoff
-
-  git submodule init subprojects/vkroots
-  git config submodule.subprojects/vkroots.url ../vkroots
-
-  git submodule init subprojects/libdisplay-info
-  git config submodule.subprojects/libdisplay-info.url ../libdisplay-info
-
-  git submodule init subprojects/openvr
-  git config submodule.subprojects/openvr.url ../openvr
-
-  git submodule init src/reshade
-  git config submodule.src/reshade.url ../reshade
-
-  git submodule init thirdparty/SPIRV-Headers
-  git config submodule.thirdparty/SPIRV-Headers.url ../SPIRV-Headers
-
+  for submodule in src/reshade subprojects/{libdisplay-info,libliftoff,openvr,vkroots,wlroots} thirdparty/SPIRV-Headers; do
+    git submodule init ${submodule}
+    git config submodule.${submodule}.url ../${submodule##*/}
+  done
   git -c protocol.file.allow=always submodule update
 }
 
-pkgver() {
-  cd $pkgname
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
 build() {
-  export CMAKE_POLICY_VERSION_MINIMUM=3.5
-
-  cd "$pkgname"
-  artix-meson . build \
-    -Dforce_fallback_for=stb,wlroots,vkroots,libliftoff,glm,libdisplay-info \
+  artix-meson gamescope build \
+    -Dforce_fallback_for=glm,stb,libdisplay-info,libliftoff,vkroots \
     -Dpipewire=enabled
-  ninja -C build
+  meson compile -C build
 }
 
 package() {
-  cd "$srcdir/$pkgname"
-
-  install -d "$pkgdir"/usr/share/gamescope/reshade
-  cp -r "$srcdir"/GamescopeShaders/* "$pkgdir"/usr/share/gamescope/reshade/
-  chmod -R 755 "$pkgdir"/usr/share/gamescope
-
-  meson install -C build --skip-subprojects --destdir="${pkgdir}"
-
-  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/$pkgname/"
+  DESTDIR="${pkgdir}" meson install -C build \
+    --skip-subprojects
+  install -Dm 644 gamescope/LICENSE -t "${pkgdir}"/usr/share/licenses/gamescope/
 }
 
 # vim: ts=2 sw=2 et:
